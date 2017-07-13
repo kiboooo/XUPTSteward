@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:layout_marginBottom="10dp"
+    android:background="@color/colorDivider"
+    >
+
+    <TextView
+        android:id="@+id/className"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="微机原理程序设计"
+        android:textSize="25sp"
+        android:textColor="@color/colorWhite"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        >
+
+        <TextView
+            android:id="@+id/chuxi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:text="出席：82.36%"
+            android:textColor="@color/coloryindao"
+            />
+
+        <TextView
+            android:id="@+id/chidao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:text="迟到：0.00%"
+            android:textColor="@color/LoginButton"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:id="@+id/quexi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:text="缺席：12.88%"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

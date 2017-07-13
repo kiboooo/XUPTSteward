@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <!--<dbname>标签用于指定数据库的名字-->
+    <dbname value="LoginData">
+
+    </dbname>
+    <!--<version>用于指定数据库的版本号-->
+    <version value="3">
+
+    </version>
+    <!--<list>用于指定所有的映射模型-->
+    <list>
+        <mapping class="com.example.dickjampink.logintest.bean.LoginData" >
+        </mapping>
+        <mapping class="com.example.dickjampink.logintest.bean.Syllabus_type" >
+        </mapping>
+    </list>
+
+</litepal>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="30sp"
+    android:id="@+id/dialog"
+    >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/about_image"
+        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/about_image"
+        android:layout_gravity="center_horizontal|center_vertical"
+        />
+
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="作者：Kibo"
+        android:textSize="15sp"
+        />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="all"
+        />
+
+    <TextView
+        android:id="@+id/github"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="all"
+        />
+
+</LinearLayout>

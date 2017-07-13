@@ -1,0 +1,40 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/LoginButton</item>
+        <item name="android:textColorHint">@color/colorEditText</item>
+    </style>
+
+    <!--EditText 的错误提示为出错时的字体颜色，以及字体大小-->
+    <style name="TextInputError" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textColor">@color/colorEditText</item>
+        <item name="android:textSize">12sp</item>
+
+    </style>
+
+    <!--字数控制器：出错时的颜色-->
+    <style name="OverflowTextAppearance" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">#d31616</item>
+    </style>
+
+    <!--字数控制器： 正常状态下的颜色-->
+    <style name="TextAppearance" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/colorEditText</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    
+
+</resources>

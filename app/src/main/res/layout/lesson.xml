@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--第一行-->
+        <TextView
+            android:id="@+id/w11"
+            android:layout_height="70dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center_horizontal|center_vertical"
+            app:layout_widthPercent="14.28%"/>
+
+        <TextView
+            android:id="@+id/w21"
+            android:layout_height="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/w11"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/w31"
+            android:layout_height="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/w21"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/w41"
+            android:layout_height="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/w31"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/w51"
+            android:layout_height="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/w41"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/w61"
+            android:layout_height="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/w51"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/w71"
+            android:layout_height="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/w61"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+
+        <!--第二行-->
+        <TextView
+            android:id="@+id/w12"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w11"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/w22"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w21"
+            android:layout_toEndOf="@+id/w12"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w32"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w31"
+            android:layout_toEndOf="@+id/w22"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w42"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w41"
+            android:layout_toEndOf="@+id/w32"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w52"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w51"
+            android:layout_toEndOf="@+id/w42"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w62"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w61"
+            android:layout_toEndOf="@+id/w52"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w72"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w71"
+            android:layout_toEndOf="@+id/w62"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <!--第三行-->
+        <TextView
+            android:id="@+id/w13"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w12"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w23"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w22"
+            android:layout_toEndOf="@+id/w13"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w33"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w32"
+            android:layout_toEndOf="@+id/w23"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w43"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w42"
+            android:layout_toEndOf="@+id/w33"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w53"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w52"
+            android:layout_toEndOf="@+id/w43"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w63"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w62"
+            android:layout_toEndOf="@+id/w53"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w73"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w72"
+            android:layout_toEndOf="@+id/w63"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <!--第四行-->
+        <TextView
+            android:id="@+id/w14"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w13"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w24"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w23"
+            android:layout_toEndOf="@+id/w14"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w34"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w33"
+            android:layout_toEndOf="@+id/w24"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w44"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w43"
+            android:layout_toEndOf="@+id/w34"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w54"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w53"
+            android:layout_toEndOf="@+id/w44"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w64"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w63"
+            android:layout_toEndOf="@+id/w54"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w74"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w73"
+            android:layout_toEndOf="@+id/w64"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+
+        <!--第五行-->
+        <TextView
+            android:id="@+id/w15"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w14"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w25"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w24"
+            android:layout_toEndOf="@+id/w15"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w35"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w34"
+            android:layout_toEndOf="@+id/w25"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w45"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w44"
+            android:layout_toEndOf="@+id/w35"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w55"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w54"
+            android:layout_toEndOf="@+id/w45"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w65"
+            android:layout_height="70dp"
+            app:layout_widthPercent="14.28%"
+            android:layout_below="@+id/w64"
+            android:layout_toEndOf="@+id/w55"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w75"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w74"
+            android:layout_toEndOf="@+id/w65"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <!--第六行-->
+        <TextView
+            android:id="@+id/w16"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w15"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w26"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w25"
+            android:layout_toEndOf="@+id/w16"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w36"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w35"
+            android:layout_toEndOf="@+id/w26"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w46"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w45"
+            android:layout_toEndOf="@+id/w36"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w56"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w55"
+            android:layout_toEndOf="@+id/w46"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w66"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w65"
+            android:layout_toEndOf="@+id/w56"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w76"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w75"
+            android:layout_toEndOf="@+id/w66"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+
+        <!--第七行-->
+        <TextView
+            android:id="@+id/w17"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w16"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w27"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w26"
+            android:layout_toEndOf="@+id/w17"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w37"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w36"
+            android:layout_toEndOf="@+id/w27"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w47"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w46"
+            android:layout_toEndOf="@+id/w37"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w57"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w56"
+            android:layout_toEndOf="@+id/w47"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w67"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w66"
+            android:layout_toEndOf="@+id/w57"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w77"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w76"
+            android:layout_toEndOf="@+id/w67"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <!--第八行-->
+        <TextView
+            android:id="@+id/w18"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w17"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w28"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w27"
+            android:layout_toEndOf="@+id/w18"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w38"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w37"
+            android:layout_toEndOf="@+id/w28"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w48"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w47"
+            android:layout_toEndOf="@+id/w38"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w58"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w57"
+            android:layout_toEndOf="@+id/w48"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w68"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w67"
+            android:layout_toEndOf="@+id/w58"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w78"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w77"
+            android:layout_toEndOf="@+id/w68"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <!--第九行-->
+        <TextView
+            android:id="@+id/w19"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w18"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w29"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w28"
+            android:layout_toEndOf="@+id/w19"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w39"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w38"
+            android:layout_toEndOf="@+id/w29"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w49"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w48"
+            android:layout_toEndOf="@+id/w39"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w59"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w58"
+            android:layout_toEndOf="@+id/w49"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w69"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w68"
+            android:layout_toEndOf="@+id/w59"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w79"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w78"
+            android:layout_toEndOf="@+id/w69"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <!--第十行-->
+        <TextView
+            android:id="@+id/w110"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w19"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w210"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w29"
+            android:layout_toEndOf="@+id/w110"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w310"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w39"
+            android:layout_toEndOf="@+id/w210"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w410"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w49"
+            android:layout_toEndOf="@+id/w310"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w510"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w59"
+            android:layout_toEndOf="@+id/w410"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w610"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w69"
+            android:layout_toEndOf="@+id/w510"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+        <TextView
+            android:id="@+id/w710"
+            android:layout_height="70dp"
+            android:layout_below="@+id/w79"
+            android:layout_toEndOf="@+id/w610"
+            app:layout_widthPercent="14.28%"
+            android:gravity="center_horizontal|center_vertical"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+</LinearLayout>
+

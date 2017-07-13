@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--android:radius：表示4个角的圆角大小；
+    还可以分别设置四个角的，使用下面四个属性：
+    android:topLeftRadius、android:topRightRadius、android:bottomLeftRadius、
+    android:bottomRightRadius分别表示：左上、右上、左下、右下。-->
+    <corners android:radius="500dp">
+
+    </corners>
+
+
+    <!--solid 矩形-->
+    <solid android:color="@color/LoginButton">
+
+    </solid>
+
+    <!--padding：设置内边距-->
+    <padding android:bottom="12dp"
+        android:left="12dp"
+        android:right="12dp"
+        android:top="12dp">
+
+    </padding>
+
+</shape>

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">LoginTest</string>
+    <string name="title_activity_syllabus">Syllabus</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="student_number">学号</string>
+    <string name="password">智慧校园密码</string>
+    <string name="loginbtn">Login</string>
+    <string name="Remember">Remember Password</string>
+    <string name="authcode">验证码</string>
+
+</resources>

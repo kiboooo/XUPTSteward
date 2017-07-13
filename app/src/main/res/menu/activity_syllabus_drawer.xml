@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_syllabus"
+            android:icon="@drawable/ic_syllabus_24dp"
+            android:title="课程表"
+
+            />
+        <item
+            android:id="@+id/nav_checking"
+            android:icon="@drawable/ic_checkname_24dp"
+            android:title="考勤表" />
+
+        <item
+            android:id="@+id/nav_personmsg"
+            android:icon="@drawable/ic_person_msg_24dp"
+            android:title="个人信息" />
+
+        <item
+            android:id="@+id/nav_checkscore"
+            android:icon="@drawable/ic_score"
+            android:title="查成绩" />
+
+        <item
+            android:id="@+id/nav_library"
+            android:icon="@drawable/ic_library"
+            android:title="图书馆" />
+
+        <item
+            android:id="@+id/nav_aboutour"
+            android:icon="@drawable/ic_about_24dp"
+            android:title="关于" />
+    </group>
+
+
+</menu>

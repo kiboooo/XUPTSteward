@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#101010</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorTitle">#BDC0BA</color>
+    <color name="colorperson">#080808</color>
+    <color name="LoginButton">#FFC408</color>
+    <color name="colorDivider">#505050</color>
+    <color name="colorEditText">#f9f9f9</color>
+    <color name="colorlogin">#113285</color>
+    <color name="coloryindao">#0dff00</color>
+
+
+</resources>

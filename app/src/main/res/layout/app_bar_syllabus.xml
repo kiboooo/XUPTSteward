@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.dickjampink.logintest.Syllabus.Syllabus">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#ff000000"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextColor="@color/colorWhite"
+            />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include
+        android:id="@+id/syllabus"
+        layout="@layout/content_syllabus"
+        android:visibility="visible"
+        />
+
+    <include
+        android:id="@+id/checking"
+        layout="@layout/content_checking"
+        android:visibility="gone"
+        />
+
+    <include
+        android:id="@+id/personal"
+        layout="@layout/content_personmsg"
+        android:visibility="gone"
+        />
+
+    <include
+        android:id="@+id/webview"
+        layout="@layout/content_webview"
+        android:visibility="gone"
+        />
+
+
+
+</android.support.design.widget.CoordinatorLayout>
