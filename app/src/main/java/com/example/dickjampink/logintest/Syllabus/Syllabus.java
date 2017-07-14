@@ -9,7 +9,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -29,6 +31,7 @@ import android.widget.TextView;
 
 import com.example.dickjampink.logintest.R;
 import com.example.dickjampink.logintest.adapter.AttendanceAdapter;
+import com.example.dickjampink.logintest.adapter.CheckAdapter;
 import com.example.dickjampink.logintest.bean.AttendanceData;
 import com.example.dickjampink.logintest.bean.LoginData;
 import com.example.dickjampink.logintest.bean.Syllabus_type;
@@ -128,13 +131,9 @@ public class Syllabus extends AppCompatActivity
                             a_data.setAbsence(att_D.getInt("Absence"));
                             a_data.setAttend(att_D.getInt("Attend"));
                             a_data.setShouldAttend(att_D.getInt("ShouldAttend"));
-                            Log.i("Class name is ::",""+ a_data.getClassName());
-                            Log.i("getAbsence is ::",""+ a_data.getAbsence());
-                            Log.i("getAttend is ::",""+ a_data.getAttend());
-                            Log.i("getShouldAttend is ::",""+ a_data.getShouldAttend());
                             att_data.add(a_data);
                         }
-                        setAttendance(att_data);
+//                        setAttendance(att_data);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -152,6 +151,13 @@ public class Syllabus extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_syllabus);
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.CheckMain);
+        CheckAdapter adapter = new CheckAdapter(getSupportFragmentManager(), getBaseContext());
+        viewPager.setAdapter(adapter);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.CheckTitle);
+        tabLayout.setupWithViewPager(viewPager);
+
 
         //获取数据表实例
         LitePal.getDatabase();
@@ -599,8 +605,6 @@ public class Syllabus extends AppCompatActivity
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         AttendanceAdapter adapter = new AttendanceAdapter(ATT);
-        Log.e("onBindViewHolder", ATT.get(0).getClassName() + ATT.get(0).getAttendProbability()
-                + ATT.get(0).getAbsenceProbability() + ATT.get(0).getLateProbability());
         recyclerView.setAdapter(adapter);
     }
 

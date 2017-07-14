@@ -31,7 +31,7 @@
 
     <include
         android:id="@+id/checking"
-        layout="@layout/content_checking"
+        layout="@layout/checking"
         android:visibility="gone"
         />
 

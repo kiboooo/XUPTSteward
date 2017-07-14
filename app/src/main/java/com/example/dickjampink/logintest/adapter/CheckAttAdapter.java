@@ -7,38 +7,34 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.dickjampink.logintest.R;
-import com.example.dickjampink.logintest.bean.AttendanceData;
+import com.example.dickjampink.logintest.bean.CheckAttData;
 
 import java.util.List;
 
 /**
- * Created by DickJampink on 2017/5/23.
- *
+ * Created by Kiboooo on 2017/7/14.
  */
 
-public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.ViewHolder> {
-    private List<AttendanceData> mAttendance;//考勤表信息List数组
+public abstract class CheckAttAdapter extends  RecyclerView.Adapter<CheckAttAdapter.ViewHolder> {
+    private List<CheckAttData> mCAtt;//考勤表查询信息列表
 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        //数据出来后。这个要改 R.layout.att_table_type,
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.att_table_type, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        AttendanceData attendance = mAttendance.get(position);
-        holder.ClassName.setText(attendance.getClassName());
-        holder.Attend.setText(attendance.getAttendProbability());
-        holder.Absent.setText(attendance.getAbsenceProbability());
-        holder.Late.setText(attendance.getLateProbability());
-
+        CheckAttData attendance = mCAtt.get(position);
+        //需要在这里设置数据到到View
     }
 
     @Override
     public int getItemCount() {
-        return mAttendance.size();
+        return mCAtt.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -56,8 +52,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
         }
     }
 
-    public AttendanceAdapter(List<AttendanceData> AttendanceList) {
-        mAttendance = AttendanceList;
+    public CheckAttAdapter(List<CheckAttData> CAtt) {
+        mCAtt = CAtt;
     }
-
 }
