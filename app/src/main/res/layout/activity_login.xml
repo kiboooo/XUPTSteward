@@ -72,19 +72,17 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="15dp"
         android:layout_width="280dp"
         android:layout_height="85dp"
-        android:orientation="horizontal"
         android:layout_gravity="center"
-        >
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
 
         <ImageView
-            android:background="@drawable/passw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            />
+            android:background="@drawable/passw" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_password"
@@ -100,16 +98,14 @@
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="10dp"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:textColor="@color/colorEditText"
                 android:textColorHint="@color/colorEditText" />
 
         </android.support.design.widget.TextInputLayout>
-
-
 
 
     </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.dickjampink.logintest.bean;
 
 /**
  * Created by Kiboooo on 2017/7/14.
+ * 等智慧教室接口好了之后，需要按照查询出来的信息，修改这个data类。
  */
 
 public class CheckAttData {

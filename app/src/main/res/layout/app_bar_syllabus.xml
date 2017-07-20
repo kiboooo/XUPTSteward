@@ -47,6 +47,12 @@
         android:visibility="gone"
         />
 
+    <include
+        android:id="@+id/gradeview"
+        layout="@layout/content_grade"
+        android:visibility="gone"
+        />
+
 
 
 </android.support.design.widget.CoordinatorLayout>

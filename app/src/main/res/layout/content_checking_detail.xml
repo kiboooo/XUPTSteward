@@ -12,42 +12,40 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#a3d6d6d6"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="考勤情况："
-            android:gravity="center"
             android:layout_marginStart="10dp"
-            android:textSize="18sp"
+            android:gravity="center"
+            android:text="考勤情况："
             android:textColor="@color/colorperson"
-            />
+            android:textSize="18sp" />
 
         <CheckBox
             android:id="@+id/normal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="正常"
-            android:textSize="16sp"
             android:layout_weight="1"
-            />
+            android:text="正常"
+            android:textSize="16sp" />
+
         <CheckBox
             android:id="@+id/late"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="迟到"
-            android:textSize="16sp"
             android:layout_weight="1"
-            />
+            android:text="迟到"
+            android:textSize="16sp" />
+
         <CheckBox
             android:id="@+id/abnormal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="缺勤"
-            android:textSize="16sp"
             android:layout_weight="1"
-            />
+            android:text="缺勤"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -76,17 +74,17 @@
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:entries="@array/check"
-            >
+            android:spinnerMode="dropdown"
+            android:dropDownVerticalOffset="50dp"
+            />
 
-        </android.support.v7.widget.AppCompatSpinner>
 
         <Button
             android:id="@+id/checkButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="查询"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp" />
 
     </LinearLayout>
 

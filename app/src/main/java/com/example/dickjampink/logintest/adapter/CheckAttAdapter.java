@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.dickjampink.logintest.R;
 import com.example.dickjampink.logintest.bean.CheckAttData;
@@ -13,6 +12,7 @@ import java.util.List;
 
 /**
  * Created by Kiboooo on 2017/7/14.
+ *
  */
 
 public abstract class CheckAttAdapter extends  RecyclerView.Adapter<CheckAttAdapter.ViewHolder> {
@@ -38,17 +38,11 @@ public abstract class CheckAttAdapter extends  RecyclerView.Adapter<CheckAttAdap
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView ClassName;
-        TextView Attend;
-        TextView Late;
-        TextView Absent;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ClassName = (TextView) itemView.findViewById(R.id.className);
-            Attend = (TextView) itemView.findViewById(R.id.chuxi);
-            Late = (TextView) itemView.findViewById(R.id.chidao);
-            Absent = (TextView) itemView.findViewById(R.id.quexi);
+
         }
     }
 

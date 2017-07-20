@@ -13,7 +13,7 @@ import com.example.dickjampink.logintest.Fragment.AttendanceFragment;
  */
 
 public class CheckAdapter extends FragmentPagerAdapter {
-    private String[] cTitle = {"考勤查询", "总结"};
+    private String[] cTitle = {"考勤查询", "考勤总结"};
     private Context mContext;
 
     public CheckAdapter(FragmentManager fm,Context c ) {
@@ -33,5 +33,10 @@ public class CheckAdapter extends FragmentPagerAdapter {
 
     public Context getmContext() {
         return mContext;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return cTitle[position];
     }
 }

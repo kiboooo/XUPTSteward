@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     final String Account = base.substring(0, i);
                     final String Password = base.substring(i+1, base.length());
                     Intent intent = new Intent(MainActivity.this, Syllabus.class);
+                    //利用 SharedPreferences 储存方式，存放用户名和密码。
                     SharedPreferences.Editor editor = pref.edit();
                     //判断 CheakBox是否有确认。
                     if (rememberPass.isChecked()) {

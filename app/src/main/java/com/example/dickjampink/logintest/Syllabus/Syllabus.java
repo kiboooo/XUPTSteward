@@ -1,5 +1,6 @@
 package com.example.dickjampink.logintest.Syllabus;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -28,17 +29,26 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.dickjampink.logintest.Fragment.LoginDialogFlagment;
 import com.example.dickjampink.logintest.R;
+import com.example.dickjampink.logintest.Request.RequsetZF;
 import com.example.dickjampink.logintest.adapter.AttendanceAdapter;
 import com.example.dickjampink.logintest.adapter.CheckAdapter;
+import com.example.dickjampink.logintest.adapter.GradeAdapter;
 import com.example.dickjampink.logintest.bean.AttendanceData;
+import com.example.dickjampink.logintest.bean.GradeCarData;
+import com.example.dickjampink.logintest.bean.GradeData;
 import com.example.dickjampink.logintest.bean.LoginData;
 import com.example.dickjampink.logintest.bean.Syllabus_type;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
@@ -60,7 +70,9 @@ import okhttp3.Response;
 import static com.example.dickjampink.logintest.R.menu.syllabus;
 
 public class Syllabus extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements
+        NavigationView.OnNavigationItemSelectedListener,
+        LoginDialogFlagment.LoginInputListener {
 
 
     private static final int SUCCESSFUL = 4;
@@ -68,15 +80,18 @@ public class Syllabus extends AppCompatActivity
     private static final int ATTENDANCE = 7;
     private static final int FALL = 5;
 
+    private boolean LoginFlage = false;
+    private GradeCarData gcd;
 
     private Toolbar toolbar;
-    private View contentSyllabus, contentChecking, contentPersonMsg,contentWebView;
+    private View contentSyllabus, contentChecking, contentPersonMsg,contentWebView,contentGradeView;
     private WebView wv;
     LoginData logindata;
     private String Cookie;
     private CircleImageView personImage_big;
     private CircleImageView personImage_small;
     AlertDialog.Builder builder;
+    ProgressDialog progressDialog;
 
     private final int w[][] = {
             {0,0,0,0,0,0,0,0},
@@ -152,13 +167,6 @@ public class Syllabus extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_syllabus);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.CheckMain);
-        CheckAdapter adapter = new CheckAdapter(getSupportFragmentManager(), getBaseContext());
-        viewPager.setAdapter(adapter);
-        final TabLayout tabLayout = (TabLayout) findViewById(R.id.CheckTitle);
-        tabLayout.setupWithViewPager(viewPager);
-
-
         //获取数据表实例
         LitePal.getDatabase();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -190,7 +198,10 @@ public class Syllabus extends AppCompatActivity
         contentChecking = findViewById(R.id.checking);
         contentPersonMsg = findViewById(R.id.personal);
         contentWebView = findViewById(R.id.webview);
-
+        contentGradeView = findViewById(R.id.gradeview);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("成绩加载中...");
+        progressDialog.setCancelable(false);
         /**
          * 在NavigationView中，有时候我们的业务逻辑可能需要获取到Head中的一些控件，
          * 比如，在这里，我们我们希望获取到我们Head中的Text，这时候如果我们像往常一样直接findViewById的话，
@@ -272,6 +283,7 @@ public class Syllabus extends AppCompatActivity
             contentSyllabus.setVisibility(View.VISIBLE);
             contentPersonMsg.setVisibility(View.GONE);
             contentWebView.setVisibility(View.GONE);
+            contentGradeView.setVisibility(View.GONE);
 
         } else if (id == R.id.nav_checking) {
 
@@ -280,6 +292,8 @@ public class Syllabus extends AppCompatActivity
             contentSyllabus.setVisibility(View.GONE);
             contentPersonMsg.setVisibility(View.GONE);
             contentWebView.setVisibility(View.GONE);
+            contentGradeView.setVisibility(View.GONE);
+            initChecking();
 
         } else if (id == R.id.nav_personmsg) {
 
@@ -288,6 +302,7 @@ public class Syllabus extends AppCompatActivity
             contentSyllabus.setVisibility(View.GONE);
             contentPersonMsg.setVisibility(View.VISIBLE);
             contentWebView.setVisibility(View.GONE);
+            contentGradeView.setVisibility(View.GONE);
 
         } else if (id == R.id.nav_library) {
             toolbar.setTitle("图书馆");
@@ -295,6 +310,7 @@ public class Syllabus extends AppCompatActivity
             contentSyllabus.setVisibility(View.GONE);
             contentPersonMsg.setVisibility(View.GONE);
             contentWebView.setVisibility(View.VISIBLE);
+            contentGradeView.setVisibility(View.GONE);
             wv.getSettings().setJavaScriptEnabled(true);
             wv.setWebViewClient(new WebViewClient());
             wv.loadUrl("http://lib.xupt.edu.cn/");
@@ -304,10 +320,13 @@ public class Syllabus extends AppCompatActivity
             contentChecking.setVisibility(View.GONE);
             contentSyllabus.setVisibility(View.GONE);
             contentPersonMsg.setVisibility(View.GONE);
-            contentWebView.setVisibility(View.VISIBLE);
-            wv.getSettings().setJavaScriptEnabled(true);
-            wv.setWebViewClient(new WebViewClient());
-            wv.loadUrl("http://222.24.62.120/");
+            contentWebView.setVisibility(View.GONE);
+            contentGradeView.setVisibility(View.VISIBLE);
+            if (!LoginFlage)
+            showLoginDialog();
+            else
+                setGradeDisplay(gcd);
+
 
         } else if (id == R.id.nav_aboutour) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -318,6 +337,16 @@ public class Syllabus extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void initChecking() {
+        ViewPager viewPager = (ViewPager) contentChecking.findViewById(R.id.CheckMain);
+        CheckAdapter adapter = new CheckAdapter(getSupportFragmentManager(), this);
+        viewPager.setAdapter(adapter);
+
+        TabLayout tabLayout = (TabLayout) contentChecking.findViewById(R.id.CheckTitle);
+        tabLayout.setupWithViewPager(viewPager);
+
     }
 
     private void getPicture_person() {
@@ -557,11 +586,6 @@ public class Syllabus extends AppCompatActivity
         TextView ps_xueyuan = (TextView) findViewById(R.id.person_xueyuan);
         TextView ps_banji = (TextView) findViewById(R.id.person_banji);
         TextView ps_zhuanye = (TextView) findViewById(R.id.person_zhuanye);
-        Log.e("personmsg", ld.getName());
-        Log.e("personmsg", ld.getBJ());
-        Log.e("personmsg", ld.getStudentID());
-        Log.e("personmsg", ld.getXYname());
-        Log.e("personmsg", ld.getZYName());
         ps_name.setText(ld.getName());
         ps_banji.setText(ld.getBJ());
         ps_xuehao.setText(ld.getStudentID());
@@ -592,6 +616,7 @@ public class Syllabus extends AppCompatActivity
         return S_time;
     }
 
+    //设置今天是周几的指示器
     private void setWeek() {
         Calendar c = Calendar.getInstance();
         TextView week_back = (TextView) findViewById(Week_back[c.get(Calendar.DAY_OF_WEEK)]);
@@ -608,6 +633,48 @@ public class Syllabus extends AppCompatActivity
         recyclerView.setAdapter(adapter);
     }
 
+    //建立Grade所需要的数据
+    private GradeCarData initGrade(String GradeBody){
+        Document document = Jsoup.parse(GradeBody);
+        Elements elements = document.select("table[class=datelist] > tbody > tr");
+        Log.e("initGrade.lenght ", elements.size()+"");
+        Log.e("initGrade ", elements.toString());
+        gcd = new GradeCarData();
+        for (int i = 1; i < elements.size() ; i++) {
+            GradeData gd = new GradeData();
+            gd.setClassID(elements.get(i).select("td").get(2).text());
+            gd.setClassNAME(elements.get(i).select("td").get(3).text());
+            gd.setClassCREDIT(Double.parseDouble(elements.get(i).select("td").get(6).text()));
+            gd.setClassNATURE(elements.get(i).select("td").get(4).text());
+            gd.setGrade(elements.get(i).select("td").get(8).text());
+            gd.setGPA(Double.parseDouble(elements.get(i).select("td").get(7).text()));
+            gcd.AddGradeArray(gd);
+        }
+        return gcd;
+    }
+
+    //建立成绩显示
+    private  void setGradeDisplay(GradeCarData GCD){
+
+        TextView credit_num = (TextView) findViewById(R.id.credit_num);
+        TextView GPA_num = (TextView) findViewById(R.id.GPA_num);
+        TextView Class_num = (TextView) findViewById(R.id.Class_num);
+
+        credit_num.setText(String.valueOf(GCD.getAllCredit()));
+        GPA_num.setText(String.valueOf(GCD.getAllGPA()));
+        Class_num.setText(String.valueOf(GCD.getAllClass()));
+
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.GradeRecyclerList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        GradeAdapter adapter = new GradeAdapter(GCD.getGradeArray());
+        recyclerView.setAdapter(adapter);
+        LoginFlage = true;
+        progressDialog.dismiss();
+    }
+
+    //关于的Dialog显示内容
     private void  setAboutDialog() {
             LayoutInflater inflater = getLayoutInflater();
             View dialog = inflater.inflate(R.layout.about_dialog, (ViewGroup) findViewById(R.id.dialog));
@@ -622,4 +689,86 @@ public class Syllabus extends AppCompatActivity
             builder.show();
     }
 
+    //调用登陆的 dialog 对话框
+    private void showLoginDialog() {
+        LoginDialogFlagment dialog = new LoginDialogFlagment();
+        dialog.setCancelable(false);
+        dialog.show(getFragmentManager(),"logindialog");
+    }
+
+
+    //Dialog登录页通过接口 返回给Activity来处理数据
+    @Override
+    public void onLoginInputComplete(String username, String password, String check_number) {
+        RequsetZF.sendLogin(username, password, check_number, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                            progressDialog.dismiss();
+                        Toast.makeText(getBaseContext(), "登录出错，请核对登录信息！", Toast.LENGTH_LONG).show();
+                        showLoginDialog();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    if (response.headers().get("Content-Length").compareTo("7000")>0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.show();
+                                String ddlXN = "&ddlXN=2016-2017";
+                                String ddlXQ = "&ddlXQ=2";
+                                String select = "&btn_xq=%D1%A7%C6%DA%B3%C9%BC%A8";
+                                RequsetZF.CheckGradeRequset(ddlXN,ddlXQ,select,new Callback() {
+                                    @Override
+                                    public void onFailure(Call call, IOException e) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                progressDialog.dismiss();
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onResponse(Call call, final Response response) throws IOException {
+                                        if (response.isSuccessful()) {
+                                            final String Gradebody = response.body().string();
+                                            Log.e("Gradebody success", Gradebody);
+                                            Document document = Jsoup.parse(Gradebody);
+                                            Log.e("Gradeing ", document.select("table[class=datelist]").toString());
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                        setGradeDisplay(initGrade(Gradebody));
+                                                }
+                                            });
+
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        Log.e("loginzf false  ", response.body().string());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.dismiss();
+                                Toast.makeText(getBaseContext(), "登录出错，请核对登录信息！", Toast.LENGTH_LONG).show();
+                                showLoginDialog();
+                            }
+                        });
+
+                    }
+                }
+            }
+        });
+
+    }
 }

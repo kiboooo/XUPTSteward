@@ -82,9 +82,9 @@ public class RequestZHJS {
                             Log.e(TAG, "header : date  " + headers.get("Date"));
                             List<String> cookies = headers.values("Set-Cookie");
                             String session = cookies.get(0);
-//                            Log.e(TAG, "onResponse-size: " + cookies);
+                            Log.e(TAG, "onResponse-size: " + cookies);
                             auth_Cookie = session.substring(0, session.indexOf(";"));
-                            Log.i(TAG, "session is  :" + auth_Cookie);
+                            Log.e(TAG, "session is  :" + auth_Cookie);
                         }
                     });
                 } catch (Exception e) {
