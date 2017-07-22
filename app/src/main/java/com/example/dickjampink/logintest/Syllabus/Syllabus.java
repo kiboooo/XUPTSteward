@@ -36,12 +36,17 @@ import com.example.dickjampink.logintest.R;
 import com.example.dickjampink.logintest.Request.RequsetZF;
 import com.example.dickjampink.logintest.adapter.AttendanceAdapter;
 import com.example.dickjampink.logintest.adapter.CheckAdapter;
+import com.example.dickjampink.logintest.adapter.CreditCollectAdapter;
 import com.example.dickjampink.logintest.adapter.GradeAdapter;
 import com.example.dickjampink.logintest.bean.AttendanceData;
+import com.example.dickjampink.logintest.bean.CreditCollectData;
+import com.example.dickjampink.logintest.bean.FloatingMenuData;
 import com.example.dickjampink.logintest.bean.GradeCarData;
 import com.example.dickjampink.logintest.bean.GradeData;
 import com.example.dickjampink.logintest.bean.LoginData;
 import com.example.dickjampink.logintest.bean.Syllabus_type;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,42 +87,45 @@ public class Syllabus extends AppCompatActivity
 
     private boolean LoginFlage = false;
     private GradeCarData gcd;
+    private FloatingMenuData fmd;
+    private ArrayList<AttendanceData> att_data;
+    private FloatingActionMenu ActionMenu;
+    private ArrayList<FloatingActionButton> floatingActionButtons = new ArrayList<>();
 
     private Toolbar toolbar;
-    private View contentSyllabus, contentChecking, contentPersonMsg,contentWebView,contentGradeView;
+    private View contentSyllabus,contentChecking,contentPersonMsg,contentWebView,contentGradeView;
     private WebView wv;
     LoginData logindata;
     private String Cookie;
     private CircleImageView personImage_big;
     private CircleImageView personImage_small;
-    AlertDialog.Builder builder;
-    ProgressDialog progressDialog;
+    private AlertDialog.Builder builder;
+    private ProgressDialog progressDialog;
 
     private final int w[][] = {
-            {0,0,0,0,0,0,0,0},
-            {0, R.id.w11,R.id.w21,R.id.w31,R.id.w41,R.id.w51,R.id.w61,R.id.w71},
-            {0,R.id.w12,R.id.w22,R.id.w32,R.id.w42,R.id.w52,R.id.w62,R.id.w72},
-            {0,R.id.w13,R.id.w23,R.id.w33,R.id.w43,R.id.w53,R.id.w63,R.id.w73},
-            {0,R.id.w14,R.id.w24,R.id.w34,R.id.w44,R.id.w54,R.id.w64,R.id.w74},
-            {0,R.id.w15,R.id.w25,R.id.w35,R.id.w45,R.id.w55,R.id.w65,R.id.w75},
-            {0,R.id.w16,R.id.w26,R.id.w36,R.id.w46,R.id.w56,R.id.w66,R.id.w76},
-            {0,R.id.w17,R.id.w27,R.id.w37,R.id.w47,R.id.w57,R.id.w67,R.id.w77},
-            {0,R.id.w18,R.id.w28,R.id.w38,R.id.w48,R.id.w58,R.id.w68,R.id.w78},
-            {0,R.id.w19,R.id.w29,R.id.w39,R.id.w49,R.id.w59,R.id.w69,R.id.w79},
-            {0,R.id.w110,R.id.w210,R.id.w310,R.id.w410,R.id.w510,R.id.w610,R.id.w710},
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, R.id.w11, R.id.w21, R.id.w31, R.id.w41, R.id.w51, R.id.w61, R.id.w71},
+            {0, R.id.w12, R.id.w22, R.id.w32, R.id.w42, R.id.w52, R.id.w62, R.id.w72},
+            {0, R.id.w13, R.id.w23, R.id.w33, R.id.w43, R.id.w53, R.id.w63, R.id.w73},
+            {0, R.id.w14, R.id.w24, R.id.w34, R.id.w44, R.id.w54, R.id.w64, R.id.w74},
+            {0, R.id.w15, R.id.w25, R.id.w35, R.id.w45, R.id.w55, R.id.w65, R.id.w75},
+            {0, R.id.w16, R.id.w26, R.id.w36, R.id.w46, R.id.w56, R.id.w66, R.id.w76},
+            {0, R.id.w17, R.id.w27, R.id.w37, R.id.w47, R.id.w57, R.id.w67, R.id.w77},
+            {0, R.id.w18, R.id.w28, R.id.w38, R.id.w48, R.id.w58, R.id.w68, R.id.w78},
+            {0, R.id.w19, R.id.w29, R.id.w39, R.id.w49, R.id.w59, R.id.w69, R.id.w79},
+            {0, R.id.w110, R.id.w210, R.id.w310, R.id.w410, R.id.w510, R.id.w610, R.id.w710},
     };
 
     private final int Background[] = {
-            R.drawable.syllabus_grid_type01,R.drawable.syllabus_grid_type02,
-            R.drawable.syllabus_grid_type03,R.drawable.syllabus_grid_type04,
-            R.drawable.syllabus_grid_type05,R.drawable.syllabus_grid_type06,
+            R.drawable.syllabus_grid_type01, R.drawable.syllabus_grid_type02,
+            R.drawable.syllabus_grid_type03, R.drawable.syllabus_grid_type04,
+            R.drawable.syllabus_grid_type05, R.drawable.syllabus_grid_type06,
             R.drawable.syllabus_grid_type07
     };
 
     private final int Week_back[] = {
-            0,R.id.week7,R.id.week1,R.id.week2,R.id.week3,R.id.week4,R.id.week5,R.id.week6
+            0, R.id.week7, R.id.week1, R.id.week2, R.id.week3, R.id.week4, R.id.week5, R.id.week6
     };
-
 
 
     public Handler mHandler = new Handler() {
@@ -138,8 +146,8 @@ public class Syllabus extends AppCompatActivity
                     String data = msg.obj.toString();
                     try {
                         JSONArray obj = new JSONObject(data).getJSONArray("Obj");
-                        ArrayList<AttendanceData> att_data = new ArrayList<>();
-                        for (int i = 0; i <obj.length(); i++) {
+                        att_data = new ArrayList<>();
+                        for (int i = 0; i < obj.length(); i++) {
                             AttendanceData a_data = new AttendanceData();
                             JSONObject att_D = obj.getJSONObject(i);
                             a_data.setClassName(att_D.getString("CourseName"));
@@ -148,7 +156,7 @@ public class Syllabus extends AppCompatActivity
                             a_data.setShouldAttend(att_D.getInt("ShouldAttend"));
                             att_data.add(a_data);
                         }
-//                        setAttendance(att_data);
+                        setAttendance();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -202,7 +210,8 @@ public class Syllabus extends AppCompatActivity
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("成绩加载中...");
         progressDialog.setCancelable(false);
-        /**
+
+        /*
          * 在NavigationView中，有时候我们的业务逻辑可能需要获取到Head中的一些控件，
          * 比如，在这里，我们我们希望获取到我们Head中的Text，这时候如果我们像往常一样直接findViewById的话，
          * 就会遇到空指针的错误，因为在这里我们获取到的控件为Null。那我们怎么获取到Head中的空间呢？
@@ -227,10 +236,10 @@ public class Syllabus extends AppCompatActivity
         getPicture_person();
         //加载个人信息页
         setPersonMsg(logindata);
-        //加载考勤表
-        getAttendance();
-    }
+        //初始化 Floating Action Button AND Menu
+        initFloatingActionButton();
 
+    }
 
 
     @Override
@@ -293,7 +302,10 @@ public class Syllabus extends AppCompatActivity
             contentPersonMsg.setVisibility(View.GONE);
             contentWebView.setVisibility(View.GONE);
             contentGradeView.setVisibility(View.GONE);
-            initChecking();
+            initCheckingTable();
+            //加载考勤表
+            getAttendance();
+
 
         } else if (id == R.id.nav_personmsg) {
 
@@ -322,8 +334,10 @@ public class Syllabus extends AppCompatActivity
             contentPersonMsg.setVisibility(View.GONE);
             contentWebView.setVisibility(View.GONE);
             contentGradeView.setVisibility(View.VISIBLE);
+//            //初始化 Floating Action Button AND Menu
+//            initFloatingActionButton();
             if (!LoginFlage)
-            showLoginDialog();
+                showLoginDialog();
             else
                 setGradeDisplay(gcd);
 
@@ -334,12 +348,14 @@ public class Syllabus extends AppCompatActivity
             setAboutDialog();
         }
 
+        //手动关闭抽屉
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private void initChecking() {
+    //考勤表的ViewPager和Tablayout的联动显示界面
+    private void initCheckingTable() {
         ViewPager viewPager = (ViewPager) contentChecking.findViewById(R.id.CheckMain);
         CheckAdapter adapter = new CheckAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
@@ -349,6 +365,7 @@ public class Syllabus extends AppCompatActivity
 
     }
 
+    //获取个人信息页的
     private void getPicture_person() {
         new Thread(new Runnable() {
             @Override
@@ -394,7 +411,8 @@ public class Syllabus extends AppCompatActivity
 
     }
 
-    private void getSyllabus(){
+    //获取课程表
+    private void getSyllabus() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -407,8 +425,6 @@ public class Syllabus extends AppCompatActivity
                             .add("json", "true")
                             .build();
                     Request request = new Request.Builder()
-//                            .header("Host", "jwkq.xupt.edu.cn:8080")
-//                            .header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
                             .url("http://jwkq.xupt.edu.cn:8080/User/GetStuClass")
                             .addHeader("Cookie", Cookie)
                             .post(body)
@@ -464,7 +480,8 @@ public class Syllabus extends AppCompatActivity
         }).start();
     }
 
-    private void getAttendance(){
+    //获取考勤表信息
+    private void getAttendance() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -476,7 +493,7 @@ public class Syllabus extends AppCompatActivity
                             .build();
                     final Request request = new Request.Builder()
                             .url("http://jwkq.xupt.edu.cn:8080/User/GetAttendRepList")
-                            .header("Cookie",Cookie)
+                            .header("Cookie", Cookie)
                             .post(body)
                             .build();
                     Call call = att_Okhttp.newCall(request);
@@ -526,10 +543,11 @@ public class Syllabus extends AppCompatActivity
         if (c.get(Calendar.MONTH) > 8) {
             return c.get(Calendar.YEAR) + "-" + (c.get(Calendar.YEAR) + 1) + "-1";
         }
-        return (c.get(Calendar.YEAR)-1)+ "-" + (c.get(Calendar.YEAR)) + "-2";
+        return (c.get(Calendar.YEAR) - 1) + "-" + (c.get(Calendar.YEAR)) + "-2";
     }
 
-    private void save_syllabus_data(JSONArray data){
+    //储存课表信息
+    private void save_syllabus_data(JSONArray data) {
         try {
             int data_size = data.length();
             for (int i = 0; i < data_size; i++) {
@@ -544,12 +562,12 @@ public class Syllabus extends AppCompatActivity
                 syllabus_type.save();
             }
         } catch (JSONException e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
     //利用数据库的数据，建立课程格子
-    private void setSyllabus(){
+    private void setSyllabus() {
         List<Syllabus_type> texts = DataSupport.findAll(Syllabus_type.class);
         String ui_control;
         int rand_background;
@@ -558,21 +576,21 @@ public class Syllabus extends AppCompatActivity
             int[] time_base = syllabus_time(text.getJT_NO());
             if (text.getBackground() == -1) {
                 Log.e("S_name：：：", text.getS_Name());
-                rand_background = (int)(Math.random()*7);
+                rand_background = (int) (Math.random() * 7);
                 text.setBackground(rand_background);
                 for (Syllabus_type up : texts) {
-                    if (up.getS_Name().compareTo( text.getS_Name())==0) {
+                    if (up.getS_Name().compareTo(text.getS_Name()) == 0) {
                         up.setBackground(rand_background);
                     }
                 }
-                    Log.e("The table is ：：：", text.getS_Name()+"   "+text.getBackground()+"  "+rand_background);
-            }else
+                Log.e("The table is ：：：", text.getS_Name() + "   " + text.getBackground() + "  " + rand_background);
+            } else
                 rand_background = text.getBackground();
             for (int aTime_base : time_base) {
-                if (aTime_base%2==0)
+                if (aTime_base % 2 == 0)
                     ui_control = text.getTeach_Name() + "\n" + text.getRoomNum();
                 else
-                    ui_control = text.getS_Name() ;
+                    ui_control = text.getS_Name();
                 TextView w_view = (TextView) findViewById(w[aTime_base][text.getWeekNum()]);
                 w_view.setText(ui_control);
                 w_view.setBackgroundResource(Background[rand_background]);
@@ -580,7 +598,8 @@ public class Syllabus extends AppCompatActivity
         }
     }
 
-    private void setPersonMsg(LoginData ld){
+    //设置个人信息页数据
+    private void setPersonMsg(LoginData ld) {
         TextView ps_name = (TextView) findViewById(R.id.person_name);
         TextView ps_xuehao = (TextView) findViewById(R.id.person_xuehao);
         TextView ps_xueyuan = (TextView) findViewById(R.id.person_xueyuan);
@@ -591,19 +610,6 @@ public class Syllabus extends AppCompatActivity
         ps_xuehao.setText(ld.getStudentID());
         ps_xueyuan.setText(ld.getXYname());
         ps_zhuanye.setText(ld.getZYName());
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        DataSupport.deleteAll(Syllabus_type.class);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        DataSupport.deleteAll(Syllabus_type.class);
-
     }
 
     //将上课时间进行分离成int数组
@@ -623,24 +629,58 @@ public class Syllabus extends AppCompatActivity
         week_back.setBackgroundResource(R.drawable.syllabus_grid_type07);
     }
 
-    //建立考勤表
-    private void setAttendance(ArrayList<AttendanceData> ATT){
+    @Override
+    public void finish() {
+        super.finish();
+        DataSupport.deleteAll(Syllabus_type.class);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DataSupport.deleteAll(Syllabus_type.class);
+
+    }
+
+    //建立考勤表
+    private void setAttendance() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.att_table_display);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        AttendanceAdapter adapter = new AttendanceAdapter(ATT);
+        AttendanceAdapter adapter = new AttendanceAdapter(att_data);
         recyclerView.setAdapter(adapter);
     }
 
+    //初始化 FloatingActionButton 和 Menu
+    private void initFloatingActionButton()  {
+        ActionMenu = (FloatingActionMenu) findViewById(R.id.ActionMenu);
+        ActionMenu.setClosedOnTouchOutside(true);
+        ActionMenu.showMenu(true);
+        floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.XFControl));
+        floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.session1));
+        floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.session2));
+        floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.session3));
+        floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.session4));
+        floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.session5));
+        floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.session6));
+        floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.session7));
+        floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.session8));
+        for (int i = 0; i < floatingActionButtons.size(); i++) {
+            floatingActionButtons.get(i).hideButtonInMenu(true);
+        }
+    }
+
     //建立Grade所需要的数据
-    private GradeCarData initGrade(String GradeBody){
+    private GradeCarData initGrade(String GradeBody) {
         Document document = Jsoup.parse(GradeBody);
-        Elements elements = document.select("table[class=datelist] > tbody > tr");
-        Log.e("initGrade.lenght ", elements.size()+"");
+        Elements elements = document.select("table#Datagrid1.datelist > tbody > tr");
+        String title = document.select("font").text();
+        Log.e("initGrade.lenght ", elements.size() + "");
         Log.e("initGrade ", elements.toString());
+        Log.e("initGrade ", title);
         gcd = new GradeCarData();
-        for (int i = 1; i < elements.size() ; i++) {
+        gcd.setCheckTitle(title);
+        for (int i = 1; i < elements.size(); i++) {
             GradeData gd = new GradeData();
             gd.setClassID(elements.get(i).select("td").get(2).text());
             gd.setClassNAME(elements.get(i).select("td").get(3).text());
@@ -652,17 +692,17 @@ public class Syllabus extends AppCompatActivity
         }
         return gcd;
     }
-
     //建立成绩显示
-    private  void setGradeDisplay(GradeCarData GCD){
+    private void setGradeDisplay(GradeCarData GCD) {
 
         TextView credit_num = (TextView) findViewById(R.id.credit_num);
         TextView GPA_num = (TextView) findViewById(R.id.GPA_num);
         TextView Class_num = (TextView) findViewById(R.id.Class_num);
 
-        credit_num.setText(String.valueOf(GCD.getAllCredit()));
-        GPA_num.setText(String.valueOf(GCD.getAllGPA()));
+        credit_num.setText(GCD.getAllCredit());
+        GPA_num.setText(GCD.getAllGPA());
         Class_num.setText(String.valueOf(GCD.getAllClass()));
+        toolbar.setTitle(GCD.getCheckTitle());
 
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.GradeRecyclerList);
@@ -670,30 +710,207 @@ public class Syllabus extends AppCompatActivity
         recyclerView.setLayoutManager(layoutManager);
         GradeAdapter adapter = new GradeAdapter(GCD.getGradeArray());
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                /*
+                dy > 0 时为手指向上滚动,列表滚动显示下面的内容
+                dy < 0 时为手指向下滚动,列表滚动显示上面的内容
+                */
+                if (dy > 0) {
+                    //隐藏菜单按钮
+                    ActionMenu.hideMenu(true);
+                } else {
+                    //显示菜单按钮
+                    ActionMenu.showMenu(true);
+                }
+            }
+        });
         LoginFlage = true;
         progressDialog.dismiss();
+        ActionMenu.showMenu(true);
+
+    }
+
+    private ArrayList<CreditCollectData> initCreditCollect(String CreditBody) {
+        ArrayList<CreditCollectData> CCD = new ArrayList<>();
+        Document document = Jsoup.parse(CreditBody);
+        Elements elements = document.select("table#Datagrid2.datelist > tbody > tr");
+        Log.e("initCreditCollect", elements.toString() + "   " + elements.size());
+        for (int i = 1; i < elements.size(); i++) {
+            CreditCollectData ccd = new CreditCollectData();
+            ccd.setClassname(elements.get(i).select("td").get(0).text());
+            ccd.setCreditRequire(elements.get(i).select("td").get(1).text());
+            ccd.setCreditGet(elements.get(i).select("td").get(2).text());
+            ccd.setCreditNot(elements.get(i).select("td").get(3).text());
+            ccd.setCreditNeed(elements.get(i).select("td").get(4).text());
+            CCD.add(ccd);
+        }
+        return CCD;
+    }
+    //显示学分统计的内容
+    private void setCreditCollectDisplay(ArrayList<CreditCollectData> CCD) {
+
+        TextView credit_num = (TextView) findViewById(R.id.credit_num);
+        TextView GPA_num = (TextView) findViewById(R.id.GPA_num);
+        TextView Class_num = (TextView) findViewById(R.id.Class_num);
+
+        credit_num.setText("");
+        GPA_num.setText("");
+        Class_num.setText("");
+        toolbar.setTitle("学分统计");
+
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.GradeRecyclerList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        CreditCollectAdapter adapter = new CreditCollectAdapter(CCD);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                /*
+                dy > 0 时为手指向上滚动,列表滚动显示下面的内容
+                dy < 0 时为手指向下滚动,列表滚动显示上面的内容
+                */
+                if (dy > 0) {
+                    //隐藏菜单按钮
+                    ActionMenu.hideMenu(true);
+                } else {
+                    //显示菜单按钮
+                    ActionMenu.showMenu(true);
+                }
+            }
+        });
+        LoginFlage = true;
+        progressDialog.dismiss();
+        ActionMenu.showMenu(true);
+
+    }
+
+    //设定FloatingMenu的数据
+    private FloatingMenuData initFMD(String MenuBody) {
+        Document document = Jsoup.parse(MenuBody);
+        Elements elements = document.select("select#ddlXN > option");
+        fmd = new FloatingMenuData();
+        fmd.setSessionNumber(elements.size());
+        for (int i = 1; i < elements.size(); i++) {
+            fmd.AddSessionYears(elements.get(i).val());
+        }
+        return fmd;
+    }
+
+    //设置按钮的显示以及，为按钮设置点击事件。
+    private void setFloatingActionButton(final FloatingMenuData FMD) {
+        Log.e("getSessionNumber", "" + FMD.getSessionNumber());
+        for (int i = 0; i <FMD.getSessionNumber() ; i++) {
+            floatingActionButtons.get(i).setVisibility(View.VISIBLE);
+            if (i == 0) {
+                //成绩统计
+                floatingActionButtons.get(i).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ActionMenu.hideMenu(true);
+                        progressDialog.show();
+                        RequsetZF.CheckGradeRequset("&ddlXN=", "&ddlXQ=",
+                                "&Button1=%B3%C9%BC%A8%CD%B3%BC%C6", new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setGradeDisplay(gcd);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                final String Body = response.body().string();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setCreditCollectDisplay(initCreditCollect(Body));
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            else
+            {
+                final int finalI = FMD.getSessionNumber()-i;
+                floatingActionButtons.get(i).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ActionMenu.hideMenu(true);
+                       progressDialog.show();
+                        Log.e("CheckGradeRequset", FMD.getSessionYears(finalI - 1) + "   " + (finalI % 2 + 1));
+                        RequsetZF.CheckGradeRequset("&ddlXN="+FMD.getSessionYears(finalI-1), "&ddlXQ="+(finalI%2+1),
+                                "&btn_xq=%D1%A7%C6%DA%B3%C9%BC%A8", new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Log.e("floatingActionButtons", "onFailure");
+                                        setGradeDisplay(gcd);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                final String Body = response.body().string();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Log.e("floatingActionButtons", Body.substring(Body.length()-3000));
+                                        setGradeDisplay(initGrade(Body));
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        }
     }
 
     //关于的Dialog显示内容
-    private void  setAboutDialog() {
-            LayoutInflater inflater = getLayoutInflater();
-            View dialog = inflater.inflate(R.layout.about_dialog, (ViewGroup) findViewById(R.id.dialog));
-            TextView Github = (TextView) dialog.findViewById(R.id.github);
-            TextView Email = (TextView) dialog.findViewById(R.id.email);
-            builder = new AlertDialog.Builder(Syllabus.this);
-            String git = "GitHub：" + "https://github.com/kiboooo";
-            String email = "Email ： " + "www.kiboooo78@gmail.com";
-            builder.setView(dialog);
-            Github.setText(git);
-            Email.setText(email);
-            builder.show();
+    private void setAboutDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialog = inflater
+                .inflate(R.layout.about_dialog, (ViewGroup) findViewById(R.id.dialog));
+        TextView Github = (TextView) dialog.findViewById(R.id.github);
+        TextView Email = (TextView) dialog.findViewById(R.id.email);
+        builder = new AlertDialog.Builder(Syllabus.this);
+        String git = "GitHub：" + "https://github.com/kiboooo";
+        String email = "Email ： " + "www.kiboooo78@gmail.com";
+        builder.setView(dialog);
+        Github.setText(git);
+        Email.setText(email);
+        builder.show();
     }
 
     //调用登陆的 dialog 对话框
     private void showLoginDialog() {
         LoginDialogFlagment dialog = new LoginDialogFlagment();
         dialog.setCancelable(false);
-        dialog.show(getFragmentManager(),"logindialog");
+        dialog.show(getFragmentManager(), "logindialog");
     }
 
 
@@ -706,8 +923,9 @@ public class Syllabus extends AppCompatActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                            progressDialog.dismiss();
-                        Toast.makeText(getBaseContext(), "登录出错，请核对登录信息！", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(getBaseContext(),
+                                "登录出错，请核对登录信息！", Toast.LENGTH_LONG).show();
                         showLoginDialog();
                     }
                 });
@@ -716,15 +934,24 @@ public class Syllabus extends AppCompatActivity
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    if (response.headers().get("Content-Length").compareTo("7000")>0) {
+                    if (response.headers().get("Content-Length").compareTo("7000") > 0) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 progressDialog.show();
-                                String ddlXN = "&ddlXN=2016-2017";
-                                String ddlXQ = "&ddlXQ=2";
+                                Calendar calendar = Calendar.getInstance();
+                                //初始申请的成绩，为上一个学期的成绩。
+                                String ddlXQ;
+                                String ddlXN = "&ddlXN=" + (calendar.get(Calendar.YEAR) - 1)
+                                        + "-" + (calendar.get(Calendar.YEAR));
+                                Log.e("calendar", calendar.get(Calendar.MONTH) + "--" + calendar.get(Calendar.DAY_OF_MONTH));
+                                if (calendar.get(Calendar.MONTH) + 1 >= 7 && calendar.get(Calendar.DAY_OF_MONTH) > 17) {
+                                    ddlXQ = "&ddlXQ=2";
+                                } else {
+                                    ddlXQ = "&ddlXQ=1";
+                                }
                                 String select = "&btn_xq=%D1%A7%C6%DA%B3%C9%BC%A8";
-                                RequsetZF.CheckGradeRequset(ddlXN,ddlXQ,select,new Callback() {
+                                RequsetZF.CheckGradeRequset(ddlXN, ddlXQ, select, new Callback() {
                                     @Override
                                     public void onFailure(Call call, IOException e) {
                                         runOnUiThread(new Runnable() {
@@ -736,16 +963,15 @@ public class Syllabus extends AppCompatActivity
                                     }
 
                                     @Override
-                                    public void onResponse(Call call, final Response response) throws IOException {
+                                    public void onResponse(Call call, final Response response)
+                                            throws IOException {
                                         if (response.isSuccessful()) {
                                             final String Gradebody = response.body().string();
-                                            Log.e("Gradebody success", Gradebody);
-                                            Document document = Jsoup.parse(Gradebody);
-                                            Log.e("Gradeing ", document.select("table[class=datelist]").toString());
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                        setGradeDisplay(initGrade(Gradebody));
+                                                    setFloatingActionButton(initFMD(Gradebody));
+                                                    setGradeDisplay(initGrade(Gradebody));
                                                 }
                                             });
 
@@ -760,7 +986,8 @@ public class Syllabus extends AppCompatActivity
                             @Override
                             public void run() {
                                 progressDialog.dismiss();
-                                Toast.makeText(getBaseContext(), "登录出错，请核对登录信息！", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),
+                                        "登录出错，请核对登录信息！", Toast.LENGTH_LONG).show();
                                 showLoginDialog();
                             }
                         });

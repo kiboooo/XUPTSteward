@@ -1,5 +1,6 @@
 package com.example.dickjampink.logintest.bean;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -10,7 +11,19 @@ public class GradeCarData {
     private double  AllCredit;
     private double  AllGPA;
     private double  AllClass;
+    private String CheckTitle;
+
+    public void setCheckTitle(String checkTitle) {
+        CheckTitle = checkTitle;
+    }
+
+    public String getCheckTitle() {
+        return CheckTitle;
+    }
+
     private ArrayList<GradeData> GradeArray ;
+    private DecimalFormat df = new DecimalFormat("#.##");
+
     public GradeCarData()
     {
         AllClass = AllCredit = AllGPA = 0.0;
@@ -25,23 +38,23 @@ public class GradeCarData {
         return GradeArray.size();
     }
 
-    public double getAllCredit() {
+    public String getAllCredit() {
         if (AllCredit==0)
         for (int i = 0; i <GradeArray.size() ; i++) {
             AllCredit += GradeArray.get(i).getClassCREDIT();
 
         }
-        return AllCredit;
+        return df.format(AllCredit);
     }
 
-    public double getAllGPA() {
+    public String getAllGPA() {
         if (AllGPA==0) {
             for (int i = 0; i < GradeArray.size(); i++) {
                 AllGPA += GradeArray.get(i).getGPA();
             }
         }
 
-        return AllGPA;
+        return df.format(AllGPA);
     }
 
     public void AddGradeArray(GradeData GD) {

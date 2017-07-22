@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login1"
-    >
+    android:background="@drawable/login1">
 
     <LinearLayout
         android:id="@+id/AllText"
@@ -110,15 +108,138 @@
                 />
 
         </LinearLayout>
-
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/GradeRecyclerList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp">
+        android:layout_marginTop="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        >
 
     </android.support.v7.widget.RecyclerView>
 
-</LinearLayout>
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/ActionMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:menu_fab_size="normal"
+        android:layout_margin="16dp"
+        app:menu_colorNormal="@color/colorGradeMenu"
+        app:menu_colorPressed="@color/colorperson"
+        app:menu_colorRipple="@color/colorperson"
+        app:menu_icon="@drawable/icon_menu2"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true"
+        app:fab_showAnimation="@anim/fab_scale_up"
+        app:fab_hideAnimation="@anim/fab_scale_down"
+        app:menu_backgroundColor="@color/colorGradeMenuBackgrond"
+        >
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/XFControl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grade_select"
+            app:fab_colorNormal="@color/LoginButton"
+            app:fab_colorPressed="@color/cardview_dark_background"
+            app:fab_size="mini"
+            app:fab_label="学分统计"
+            android:visibility="gone"
+            />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/session1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grade_select"
+            app:fab_colorNormal="@color/LoginButton"
+            app:fab_colorPressed="@color/cardview_dark_background"
+            app:fab_size="mini"
+            app:fab_label="大一第一学期成绩"
+            android:visibility="gone"
+            />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/session2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grade_select"
+            app:fab_colorNormal="@color/LoginButton"
+            app:fab_colorPressed="@color/cardview_dark_background"
+            app:fab_size="mini"
+            app:fab_label="大一第二学期成绩"
+            android:visibility="gone"
+            />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/session3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grade_select"
+            app:fab_colorNormal="@color/LoginButton"
+            app:fab_colorPressed="@color/cardview_dark_background"
+            app:fab_size="mini"
+            app:fab_label="大二第一学期成绩"
+            android:visibility="gone"
+            />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/session4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grade_select"
+            app:fab_colorNormal="@color/LoginButton"
+            app:fab_colorPressed="@color/cardview_dark_background"
+            app:fab_size="mini"
+            app:fab_label="大二第二学期成绩"
+            android:visibility="gone"
+            />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/session5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grade_select"
+            app:fab_colorNormal="@color/LoginButton"
+            app:fab_colorPressed="@color/cardview_dark_background"
+            app:fab_size="mini"
+            app:fab_label="大三第一学期成绩"
+            android:visibility="gone"
+            />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/session6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grade_select"
+            app:fab_colorNormal="@color/LoginButton"
+            app:fab_colorPressed="@color/cardview_dark_background"
+            app:fab_size="mini"
+            app:fab_label="大三第二学期成绩"
+            android:visibility="gone"
+            />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/session7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grade_select"
+            app:fab_colorNormal="@color/LoginButton"
+            app:fab_colorPressed="@color/cardview_dark_background"
+            app:fab_size="mini"
+            app:fab_label="大四第一学期成绩"
+            android:visibility="gone"
+            />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/session8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grade_select"
+            app:fab_colorNormal="@color/LoginButton"
+            app:fab_colorPressed="@color/cardview_dark_background"
+            app:fab_size="mini"
+            app:fab_label="大四第二学期成绩"
+            android:visibility="gone"
+            />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -180,12 +180,12 @@ public class RequsetZF {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.e("CheckGrad_ViewState  ", CheckGrad_ViewState.substring(CheckGrad_ViewState.length()-5));
-                            Log.e("GradeUrl  ", GradeUrl);
-                            Log.e("Body :  ", ddlXN + "   " + ddlXQ + "   " + ButtonSelect);
-                            Log.e("Body  ddlXN   :  ", ddlXN.split("=")[0] + "   " + ddlXN.split("=")[1] );
-                            Log.e("Body  ddlXQ   :  ", ddlXQ.split("=")[0] + "   " + ddlXQ.split("=")[1] );
-                            Log.e("Body  ButtonSelec:  ", ButtonSelect.split("=")[0]+ "   " + ButtonSelect.split("=")[1] );
+//                            Log.e("CheckGrad_ViewState  ", CheckGrad_ViewState.substring(CheckGrad_ViewState.length()-5));
+//                            Log.e("GradeUrl  ", GradeUrl);
+//                            Log.e("Body :  ", ddlXN + "   " + ddlXQ + "   " + ButtonSelect);
+//                            Log.e("Body  ddlXN   :  ", ddlXN.split("=")[0] + "   " + ddlXN.split("=")[1] );
+//                            Log.e("Body  ddlXQ   :  ", ddlXQ.split("=")[0] + "   " + ddlXQ.split("=")[1] );
+//                            Log.e("Body  ButtonSelec:  ", ButtonSelect.split("=")[0]+ "   " + ButtonSelect.split("=")[1] );
 
                             String requestbody_String = "__EVENTTARGET=&__EVENTARGUMENT=&__VIEWSTATE="
                                     + CheckGrad_ViewState
@@ -218,4 +218,6 @@ public class RequsetZF {
             }
         });
     }
+
+
 }

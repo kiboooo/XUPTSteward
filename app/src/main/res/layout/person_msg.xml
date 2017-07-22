@@ -214,6 +214,7 @@
             android:gravity="end|center"
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
+            android:text="西安邮电大学"
             android:textColor="@color/colorTitle"
             android:textSize="18sp" />
 

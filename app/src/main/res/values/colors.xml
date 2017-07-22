@@ -11,6 +11,9 @@
     <color name="colorEditText">#f9f9f9</color>
     <color name="colorlogin">#113285</color>
     <color name="coloryindao">#0dff00</color>
+    <color name="colorGradeMenuBackgrond">#76bababa</color>
+    <color name="colorGradeMenu">#434343</color>
+    <color name="colorCreditCar">#2EA9DF</color>
 
 
 </resources>
