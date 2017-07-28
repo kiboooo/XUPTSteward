@@ -23,11 +23,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include
-        android:id="@+id/syllabus"
-        layout="@layout/content_syllabus"
-        android:visibility="visible"
-        />
 
     <include
         android:id="@+id/checking"
@@ -53,6 +48,10 @@
         android:visibility="gone"
         />
 
+    <include
+        android:id="@+id/syllabus"
+        layout="@layout/content_syllabus"
+        android:visibility="visible" />
 
 
 </android.support.design.widget.CoordinatorLayout>

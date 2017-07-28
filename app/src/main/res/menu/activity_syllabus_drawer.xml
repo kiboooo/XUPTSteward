@@ -7,17 +7,12 @@
             android:id="@+id/nav_syllabus"
             android:icon="@drawable/ic_syllabus_24dp"
             android:title="课程表"
-
             />
         <item
             android:id="@+id/nav_checking"
             android:icon="@drawable/ic_checkname_24dp"
             android:title="考勤表" />
 
-        <item
-            android:id="@+id/nav_personmsg"
-            android:icon="@drawable/ic_person_msg_24dp"
-            android:title="个人信息" />
 
         <item
             android:id="@+id/nav_checkscore"
@@ -30,10 +25,30 @@
             android:title="图书馆" />
 
         <item
-            android:id="@+id/nav_aboutour"
-            android:icon="@drawable/ic_about_24dp"
-            android:title="关于" />
+            android:id="@+id/nav_PE"
+            android:icon="@drawable/ic_timer_black_24dp"
+            android:title="体育部" />
+
     </group>
+
+    <item android:title="XUPTSteward">
+        <menu>
+            <item
+                android:id="@+id/nav_personmsg"
+                android:icon="@drawable/ic_person_msg_24dp"
+                android:title="个人信息" />
+
+            <item
+                android:id="@+id/nav_cancel"
+                android:icon="@drawable/ic_cancel_24dp"
+                android:title="注销" />
+
+            <item
+                android:id="@+id/nav_aboutour"
+                android:icon="@drawable/ic_about_24dp"
+                android:title="关于" />
+        </menu>
+    </item>
 
 
 </menu>

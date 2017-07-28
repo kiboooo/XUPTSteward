@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/Building1"
+        android:orderInCategory="100"
+        android:title="@string/YT18"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/Building2"
+        android:orderInCategory="100"
+        android:title="@string/CAXB"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/Building3"
+        android:orderInCategory="100"
+        android:title="@string/CAXA"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/Building4"
+        android:orderInCategory="100"
+        android:title="@string/CAYF"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/Building5"
+        android:orderInCategory="100"
+        android:title="@string/SY1"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/Building6"
+        android:orderInCategory="100"
+        android:title="@string/XQ"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/Building7"
+        android:orderInCategory="100"
+        android:title="@string/SY2"
+        app:showAsAction="never" />
+</menu>

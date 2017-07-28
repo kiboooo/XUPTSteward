@@ -11,9 +11,19 @@
     <color name="colorEditText">#f9f9f9</color>
     <color name="colorlogin">#113285</color>
     <color name="coloryindao">#0dff00</color>
-    <color name="colorGradeMenuBackgrond">#76bababa</color>
+    <color name="colorGradeMenuBackgrond">#90bababa</color>
     <color name="colorGradeMenu">#434343</color>
     <color name="colorCreditCar">#2EA9DF</color>
+
+    <!--给培养计划设置的8个Item的颜色-->
+    <color name="item1">#B5CAA0</color>
+    <color name="item2">#91AD70</color>
+    <color name="item3">#90B44B</color>
+    <color name="item4">#89916B</color>
+    <color name="item5">#4D5139</color>
+    <color name="item6">#5B622E</color>
+    <color name="item7">#4B4E2A</color>
+    <color name="item8">#0C0C0C</color>
 
 
 </resources>

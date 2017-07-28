@@ -66,7 +66,7 @@
             android:text="时间期限："
             android:textSize="18sp"
             android:textColor="@color/colorperson"
-            app:theme="@style/AppTheme"
+            android:theme="@style/AppTheme"
             />
 
         <android.support.v7.widget.AppCompatSpinner
@@ -88,11 +88,29 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/check_display"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:id="@+id/Detail_NotMsg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/NOT_MSG"
+            android:textSize="25sp"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/check_display"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </FrameLayout>
+
+
 
 </LinearLayout>

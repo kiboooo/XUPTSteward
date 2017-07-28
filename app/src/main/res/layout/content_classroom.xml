@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login1">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/ClassRoomToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorperson"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextColor="@color/colorWhite"
+            app:titleMarginStart="100dp"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            >
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/ClassRoomNot_Msg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/NOT_MSG"
+            android:textSize="25sp"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ClassRoomRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </FrameLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>

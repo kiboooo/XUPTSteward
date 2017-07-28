@@ -1,6 +1,7 @@
 package com.example.dickjampink.logintest.Syllabus;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -21,6 +23,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,13 +35,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dickjampink.logintest.Fragment.LoginDialogFlagment;
+import com.example.dickjampink.logintest.Listener.MylocationListener;
 import com.example.dickjampink.logintest.R;
+import com.example.dickjampink.logintest.Request.RequestWeather;
 import com.example.dickjampink.logintest.Request.RequsetZF;
-import com.example.dickjampink.logintest.adapter.AttendanceAdapter;
+import com.example.dickjampink.logintest.activity.MainActivity;
+import com.example.dickjampink.logintest.activity.PYJHActivity;
+import com.example.dickjampink.logintest.activity.WeatherActivity;
 import com.example.dickjampink.logintest.adapter.CheckAdapter;
 import com.example.dickjampink.logintest.adapter.CreditCollectAdapter;
 import com.example.dickjampink.logintest.adapter.GradeAdapter;
-import com.example.dickjampink.logintest.bean.AttendanceData;
 import com.example.dickjampink.logintest.bean.CreditCollectData;
 import com.example.dickjampink.logintest.bean.FloatingMenuData;
 import com.example.dickjampink.logintest.bean.GradeCarData;
@@ -56,12 +62,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
+import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
@@ -82,25 +91,24 @@ public class Syllabus extends AppCompatActivity
 
     private static final int SUCCESSFUL = 4;
     private static final int GETPICTURE = 3;
-    private static final int ATTENDANCE = 7;
     private static final int FALL = 5;
 
     private boolean LoginFlage = false;
     private GradeCarData gcd;
-    private FloatingMenuData fmd;
-    private ArrayList<AttendanceData> att_data;
     private FloatingActionMenu ActionMenu;
     private ArrayList<FloatingActionButton> floatingActionButtons = new ArrayList<>();
 
     private Toolbar toolbar;
     private View contentSyllabus,contentChecking,contentPersonMsg,contentWebView,contentGradeView;
     private WebView wv;
-    LoginData logindata;
+    private LoginData logindata;
     private String Cookie;
     private CircleImageView personImage_big;
     private CircleImageView personImage_small;
-    private AlertDialog.Builder builder;
-    private ProgressDialog progressDialog;
+    private static ProgressDialog progressDialog;
+
+    //两次Back退出的判断时间差的条件
+    private long exitTime = 0;
 
     private final int w[][] = {
             {0, 0, 0, 0, 0, 0, 0, 0},
@@ -141,25 +149,6 @@ public class Syllabus extends AppCompatActivity
                     break;
                 case SUCCESSFUL:
                     setSyllabus();
-                    break;
-                case ATTENDANCE:
-                    String data = msg.obj.toString();
-                    try {
-                        JSONArray obj = new JSONObject(data).getJSONArray("Obj");
-                        att_data = new ArrayList<>();
-                        for (int i = 0; i < obj.length(); i++) {
-                            AttendanceData a_data = new AttendanceData();
-                            JSONObject att_D = obj.getJSONObject(i);
-                            a_data.setClassName(att_D.getString("CourseName"));
-                            a_data.setAbsence(att_D.getInt("Absence"));
-                            a_data.setAttend(att_D.getInt("Attend"));
-                            a_data.setShouldAttend(att_D.getInt("ShouldAttend"));
-                            att_data.add(a_data);
-                        }
-                        setAttendance();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     break;
                 case FALL:
                     break;
@@ -207,6 +196,7 @@ public class Syllabus extends AppCompatActivity
         contentPersonMsg = findViewById(R.id.personal);
         contentWebView = findViewById(R.id.webview);
         contentGradeView = findViewById(R.id.gradeview);
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("成绩加载中...");
         progressDialog.setCancelable(false);
@@ -220,14 +210,17 @@ public class Syllabus extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         TextView XH = (TextView) headerView.findViewById(R.id.XH);
         TextView Name = (TextView) headerView.findViewById(R.id.StudenName);
+
         personImage_big = (CircleImageView) headerView.findViewById(R.id.userimage);
         personImage_small = (CircleImageView) findViewById(R.id.personal_msg_image);
 
-
+        //设置NavigationVime 的 menu 中的名字和学号。
         String temp = "学号：" + logindata.getStudentID();
         XH.setText(temp);
         Name.setText(logindata.getName());
 
+        //加载天气状况
+        setWeatherData(headerView);
         //加载今天是周几
         setWeek();
         //加载课程表信息
@@ -241,6 +234,30 @@ public class Syllabus extends AppCompatActivity
 
     }
 
+
+    //实现了，需要两次点击Back
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK &&
+                event.getAction() == KeyEvent.ACTION_DOWN) {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            if (System.currentTimeMillis() - exitTime > 2000) {
+                    Snackbar.make(contentSyllabus, "再点一次退出哦...", Snackbar.LENGTH_SHORT)
+                            .show();
+
+                exitTime = System.currentTimeMillis();
+            }else
+            {
+                finish();
+                System.exit(0);
+            }
+            return true;
+
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -271,8 +288,16 @@ public class Syllabus extends AppCompatActivity
         int id = item.getItemId();
 
         //no inspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            finish();
+        if (id == R.id.action_Change) {
+            Snackbar.make(contentSyllabus,"温馨提示：确认注销当前账号吗？",Snackbar.LENGTH_SHORT)
+                    .setAction("确认", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(Syllabus.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).show();
             return true;
         }
 
@@ -284,6 +309,7 @@ public class Syllabus extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        TextView webViewNotMsg = (TextView) findViewById(R.id.Webview_NotMsg);
 
         if (id == R.id.nav_syllabus) {
 
@@ -303,9 +329,6 @@ public class Syllabus extends AppCompatActivity
             contentWebView.setVisibility(View.GONE);
             contentGradeView.setVisibility(View.GONE);
             initCheckingTable();
-            //加载考勤表
-            getAttendance();
-
 
         } else if (id == R.id.nav_personmsg) {
 
@@ -315,6 +338,7 @@ public class Syllabus extends AppCompatActivity
             contentPersonMsg.setVisibility(View.VISIBLE);
             contentWebView.setVisibility(View.GONE);
             contentGradeView.setVisibility(View.GONE);
+//            RequsetZF.GetPYJHList(this);
 
         } else if (id == R.id.nav_library) {
             toolbar.setTitle("图书馆");
@@ -323,9 +347,16 @@ public class Syllabus extends AppCompatActivity
             contentPersonMsg.setVisibility(View.GONE);
             contentWebView.setVisibility(View.VISIBLE);
             contentGradeView.setVisibility(View.GONE);
-            wv.getSettings().setJavaScriptEnabled(true);
-            wv.setWebViewClient(new WebViewClient());
-            wv.loadUrl("http://lib.xupt.edu.cn/");
+            searchUrl(webViewNotMsg,"http://lib.xupt.edu.cn/wap/index.html#xylib_search_1");
+
+        } else if (id == R.id.nav_PE) {
+            toolbar.setTitle("体育部");
+            contentChecking.setVisibility(View.GONE);
+            contentSyllabus.setVisibility(View.GONE);
+            contentPersonMsg.setVisibility(View.GONE);
+            contentWebView.setVisibility(View.VISIBLE);
+            contentGradeView.setVisibility(View.GONE);
+            searchUrl(webViewNotMsg,"http://yddx.boxkj.com/wx/loginout");
 
         } else if (id == R.id.nav_checkscore) {
             toolbar.setTitle("查成绩");
@@ -334,8 +365,6 @@ public class Syllabus extends AppCompatActivity
             contentPersonMsg.setVisibility(View.GONE);
             contentWebView.setVisibility(View.GONE);
             contentGradeView.setVisibility(View.VISIBLE);
-//            //初始化 Floating Action Button AND Menu
-//            initFloatingActionButton();
             if (!LoginFlage)
                 showLoginDialog();
             else
@@ -346,6 +375,17 @@ public class Syllabus extends AppCompatActivity
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             setAboutDialog();
+
+        } else if (id == R.id.nav_cancel) {
+            Snackbar.make(contentSyllabus,"温馨提示：确认注销当前账号吗？",Snackbar.LENGTH_SHORT)
+                    .setAction("确认", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(Syllabus.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).show();
         }
 
         //手动关闭抽屉
@@ -362,7 +402,6 @@ public class Syllabus extends AppCompatActivity
 
         TabLayout tabLayout = (TabLayout) contentChecking.findViewById(R.id.CheckTitle);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     //获取个人信息页的
@@ -435,7 +474,6 @@ public class Syllabus extends AppCompatActivity
                         //失败的回调
                         @Override
                         public void onFailure(Call call, IOException e) {
-                            Log.e("课表请求失败咯", "++++++++++");
                             Message msg = new Message();
                             msg.what = FALL;
                             mHandler.sendMessage(msg);
@@ -478,63 +516,6 @@ public class Syllabus extends AppCompatActivity
                 }
             }
         }).start();
-    }
-
-    //获取考勤表信息
-    private void getAttendance() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    OkHttpClient att_Okhttp = new OkHttpClient();
-                    Log.e("考勤表的Cookie：", Cookie);
-                    RequestBody body = new FormBody.Builder()
-                            .add("json", "true")
-                            .build();
-                    final Request request = new Request.Builder()
-                            .url("http://jwkq.xupt.edu.cn:8080/User/GetAttendRepList")
-                            .header("Cookie", Cookie)
-                            .post(body)
-                            .build();
-                    Call call = att_Okhttp.newCall(request);
-                    call.enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            Message msg = new Message();
-                            msg.what = FALL;
-                            mHandler.sendMessage(msg);
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            try {
-                                if (response.isSuccessful()) {
-                                    Log.e("考勤表获取成功", "22222");
-                                    String data = response.body().string();
-                                    Log.e("考勤表获取成功", new JSONObject(data).toString());
-                                    JSONArray obj = new JSONObject(data).getJSONArray("Obj");
-                                    if (obj.length() >= 0) {
-                                        Log.e("考勤表获取成功", "1111111111");
-                                        Message msg = new Message();
-                                        msg.obj = data;
-                                        msg.what = ATTENDANCE;
-                                        mHandler.sendMessage(msg);
-                                    }
-                                } else {
-                                    Log.e("考勤表获取失败", "999999999999");
-                                    mHandler.sendEmptyMessage(FALL);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
     }
 
     //利用日期类 求出 查询的时间点为哪一个学期；
@@ -633,6 +614,8 @@ public class Syllabus extends AppCompatActivity
     public void finish() {
         super.finish();
         DataSupport.deleteAll(Syllabus_type.class);
+        wv.clearCache(true);
+        wv.clearHistory();
     }
 
     @Override
@@ -642,21 +625,13 @@ public class Syllabus extends AppCompatActivity
 
     }
 
-    //建立考勤表
-    private void setAttendance() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.att_table_display);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        AttendanceAdapter adapter = new AttendanceAdapter(att_data);
-        recyclerView.setAdapter(adapter);
-    }
-
     //初始化 FloatingActionButton 和 Menu
     private void initFloatingActionButton()  {
         ActionMenu = (FloatingActionMenu) findViewById(R.id.ActionMenu);
         ActionMenu.setClosedOnTouchOutside(true);
         ActionMenu.showMenu(true);
         floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.XFControl));
+        floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.PYJH));
         floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.session1));
         floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.session2));
         floatingActionButtons.add((FloatingActionButton) contentGradeView.findViewById(R.id.session3));
@@ -692,6 +667,7 @@ public class Syllabus extends AppCompatActivity
         }
         return gcd;
     }
+
     //建立成绩显示
     private void setGradeDisplay(GradeCarData GCD) {
 
@@ -725,10 +701,13 @@ public class Syllabus extends AppCompatActivity
                 */
                 if (dy > 0) {
                     //隐藏菜单按钮
-                    ActionMenu.hideMenu(true);
+//                    ActionMenu.hideMenu(true);
+                    ActionMenu.hideMenuButton(true);
                 } else {
                     //显示菜单按钮
-                    ActionMenu.showMenu(true);
+//                    ActionMenu.showMenu(true);
+                    ActionMenu.showMenuButton(true);
+
                 }
             }
         });
@@ -754,6 +733,7 @@ public class Syllabus extends AppCompatActivity
         }
         return CCD;
     }
+
     //显示学分统计的内容
     private void setCreditCollectDisplay(ArrayList<CreditCollectData> CCD) {
 
@@ -787,10 +767,11 @@ public class Syllabus extends AppCompatActivity
                 */
                 if (dy > 0) {
                     //隐藏菜单按钮
-                    ActionMenu.hideMenu(true);
+                    ActionMenu.hideMenuButton(true);
                 } else {
                     //显示菜单按钮
-                    ActionMenu.showMenu(true);
+                    ActionMenu.showMenuButton(true);
+
                 }
             }
         });
@@ -804,7 +785,7 @@ public class Syllabus extends AppCompatActivity
     private FloatingMenuData initFMD(String MenuBody) {
         Document document = Jsoup.parse(MenuBody);
         Elements elements = document.select("select#ddlXN > option");
-        fmd = new FloatingMenuData();
+        FloatingMenuData fmd = new FloatingMenuData();
         fmd.setSessionNumber(elements.size());
         for (int i = 1; i < elements.size(); i++) {
             fmd.AddSessionYears(elements.get(i).val());
@@ -815,7 +796,7 @@ public class Syllabus extends AppCompatActivity
     //设置按钮的显示以及，为按钮设置点击事件。
     private void setFloatingActionButton(final FloatingMenuData FMD) {
         Log.e("getSessionNumber", "" + FMD.getSessionNumber());
-        for (int i = 0; i <FMD.getSessionNumber() ; i++) {
+        for (int i = 0; i <FMD.getSessionNumber()+1 ; i++) {
             floatingActionButtons.get(i).setVisibility(View.VISIBLE);
             if (i == 0) {
                 //成绩统计
@@ -849,41 +830,48 @@ public class Syllabus extends AppCompatActivity
                         });
                     }
                 });
-            }
-            else
-            {
-                final int finalI = FMD.getSessionNumber()-i;
+            } else if (i == 1) {
+                floatingActionButtons.get(i).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Syllabus.this, PYJHActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+            } else {
+                final int finalI = FMD.getSessionNumber() - i+1;
                 floatingActionButtons.get(i).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         ActionMenu.hideMenu(true);
-                       progressDialog.show();
+                        progressDialog.show();
                         Log.e("CheckGradeRequset", FMD.getSessionYears(finalI - 1) + "   " + (finalI % 2 + 1));
-                        RequsetZF.CheckGradeRequset("&ddlXN="+FMD.getSessionYears(finalI-1), "&ddlXQ="+(finalI%2+1),
+                        RequsetZF.CheckGradeRequset("&ddlXN=" + FMD.getSessionYears(finalI - 1), "&ddlXQ=" + (finalI % 2 + 1),
                                 "&btn_xq=%D1%A7%C6%DA%B3%C9%BC%A8", new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-                                runOnUiThread(new Runnable() {
                                     @Override
-                                    public void run() {
-                                        Log.e("floatingActionButtons", "onFailure");
-                                        setGradeDisplay(gcd);
+                                    public void onFailure(Call call, IOException e) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Log.e("floatingActionButtons", "onFailure");
+                                                setGradeDisplay(gcd);
+                                            }
+                                        });
                                     }
-                                });
-                            }
 
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                final String Body = response.body().string();
-                                runOnUiThread(new Runnable() {
                                     @Override
-                                    public void run() {
-                                        Log.e("floatingActionButtons", Body.substring(Body.length()-3000));
-                                        setGradeDisplay(initGrade(Body));
+                                    public void onResponse(Call call, Response response) throws IOException {
+                                        final String Body = response.body().string();
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Log.e("floatingActionButtons", Body.substring(Body.length() - 3000));
+                                                setGradeDisplay(initGrade(Body));
+                                            }
+                                        });
                                     }
                                 });
-                            }
-                        });
                     }
                 });
             }
@@ -897,7 +885,7 @@ public class Syllabus extends AppCompatActivity
                 .inflate(R.layout.about_dialog, (ViewGroup) findViewById(R.id.dialog));
         TextView Github = (TextView) dialog.findViewById(R.id.github);
         TextView Email = (TextView) dialog.findViewById(R.id.email);
-        builder = new AlertDialog.Builder(Syllabus.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Syllabus.this);
         String git = "GitHub：" + "https://github.com/kiboooo";
         String email = "Email ： " + "www.kiboooo78@gmail.com";
         builder.setView(dialog);
@@ -912,7 +900,6 @@ public class Syllabus extends AppCompatActivity
         dialog.setCancelable(false);
         dialog.show(getFragmentManager(), "logindialog");
     }
-
 
     //Dialog登录页通过接口 返回给Activity来处理数据
     @Override
@@ -934,7 +921,7 @@ public class Syllabus extends AppCompatActivity
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    if (response.headers().get("Content-Length").compareTo("7000") > 0) {
+                    if (response.headers().size() == 10 && response.code() == 200) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -996,6 +983,97 @@ public class Syllabus extends AppCompatActivity
                 }
             }
         });
+
+    }
+    //检测URl是否有效。
+    private void searchUrl(final TextView webViewNotMsg, final String Url)
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final Request request = new Request.Builder()
+                        .url(Url)
+                        .build();
+
+                Call call = new OkHttpClient().newCall(request);
+                try {
+                    int returnNumber = call.execute().code();
+                    Log.e("searchUrl", "   " + returnNumber);
+                    if (returnNumber==200){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                webViewNotMsg.setVisibility(View.GONE);
+                                wv.getSettings().setJavaScriptEnabled(true);
+                                wv.setWebViewClient(new WebViewClient());
+                                wv.loadUrl(Url);
+                            }
+                        });
+                    }else runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            webViewNotMsg.setVisibility(View.VISIBLE);
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    //设置天气的显示，以及点击温度页的跳转。
+    private void setWeatherData(View headerView) {
+        try {
+            final TextView Temperature = (TextView) headerView.findViewById(R.id.WenduDisplay);
+            TextView TemperatureLocation = (TextView) headerView.findViewById(R.id.WenduLocal);
+            TemperatureLocation.setText(MylocationListener.LocationName);
+            final String CSDM = RequestWeather.GetCityCode(getApplicationContext(),
+                    MylocationListener.LocationName,MylocationListener.LocationCityName);
+            final String url = "http://wx.weather.com.cn/mweather/"
+                    + CSDM + ".shtml#1";
+            Log.e("setWeatherData", url);
+            //天气按钮的监听
+            Temperature.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Syllabus.this, WeatherActivity.class);
+                    intent.putExtra("URL", url);
+                    startActivity(intent);
+                }
+            });
+            RequestWeather.GetTemperature(MylocationListener.LocationRequest, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        try {
+                            JSONArray jsonArray = new JSONObject(response.body().string())
+                                    .getJSONArray("results");
+                            Log.e("GetTemperature", jsonArray.get(0).toString());
+                            final String temperature = jsonArray.getJSONObject(0).getJSONObject("now")
+                                    .getString("temperature")+"º";
+                            Log.e("GetTemperature", temperature);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Temperature.setText(temperature);
+                                }
+                            });
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+        } catch (IOException | SAXException | ParserConfigurationException e) {
+            e.printStackTrace();
+            Log.e("setWeatherData", e.toString());
+        }
 
     }
 }

@@ -136,7 +136,10 @@
                 android:layout_marginStart="26dp"
                 android:hint="@string/authcode"
                 android:textColor="@color/colorEditText"
-                android:textColorHint="@color/colorEditText" />
+                android:textColorHint="@color/colorEditText"
+                android:maxLength="5"
+                android:inputType="number"
+                />
 
         </android.support.design.widget.TextInputLayout>
 

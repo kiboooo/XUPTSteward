@@ -12,5 +12,18 @@
     <string name="loginbtn">Login</string>
     <string name="Remember">Remember Password</string>
     <string name="authcode">验证码</string>
+    <string name="NOT_MSG">暂时无数据</string>
+
+
+    <string name="YT18">雁塔校区18层楼</string>
+    <string name="CAXB">长安校区西区基础教学B楼</string>
+    <string name="CAXA">长安校区西区基础教学A楼</string>
+    <string name="CAYF">长安校区东区逸夫楼</string>
+    <string name="SY1">1号实验楼</string>
+    <string name="SY2">2号实验楼</string>
+    <string name="XQ">西区</string>
+
+
+    <string name="WenDu">º</string>
 
 </resources>

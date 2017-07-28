@@ -18,6 +18,7 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -29,6 +30,7 @@ import static com.example.dickjampink.logintest.activity.MainActivity.JSON;
 
 /**
  * Created by Kiboooo on 2017/7/11.
+ *
  */
 
 public class RequestZHJS {
@@ -41,6 +43,7 @@ public class RequestZHJS {
     private static OkHttpClient mOkHttpClient;
 
     private static String auth_Cookie;
+    private static String seccessfulCookie;
 
     public static void getPicture(final Handler mHandler) {
         new Thread(new Runnable() {
@@ -95,8 +98,6 @@ public class RequestZHJS {
 
     }
 
-
-
     public static void sendRequest(final Handler mHandler, final EditText accountEdit,
                                    final EditText passwordEdit, final EditText authcodeEdit){
         new Thread(new Runnable() {
@@ -139,8 +140,6 @@ public class RequestZHJS {
                             //刷新ui，okhttp网络请求后，不是在主线程中，如果要刷新ui，必须的主线程中；
                             if (response.isSuccessful()) {
                                 String data = response.body().string();
-//                                    final Gson gson = new Gson();
-//                                    LData loginData = gson.fromJson(data, LData.class);
                                 try {
                                     Log.e(TAG, "jsonArray 前 : "+data);
                                     JSONObject jsonObject = new JSONObject(data);
@@ -153,8 +152,10 @@ public class RequestZHJS {
                                             Log.e("Login seccess headers::", headers.toString());
                                             //获取登录成功的Cookie
                                             List<String> cookies = headers.values("Set-Cookie");
-                                            String login_success = cookies.get(0);
-                                            String login_cookie = auth_Cookie+"; "+login_success.substring(0, login_success.indexOf(";"));
+                                            String login_cookie = cookies.get(0);
+                                            Log.e("Cookie login_cookie", login_cookie);
+                                            seccessfulCookie = auth_Cookie+"; "+login_cookie.substring(0, login_cookie.indexOf(";"));
+                                            Log.e("Cookie seccessfulCookie",seccessfulCookie );
                                             byte[] user_pass = (account+" "+password).getBytes();
                                             LoginData loginD = new LoginData();
                                             JSONObject login_data = jsonObject.getJSONObject("Obj");
@@ -197,6 +198,90 @@ public class RequestZHJS {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        }).start();
+    }
+
+    public static void CheckMsgRequest(final String WaterDate, final String Status,
+                                       final String Flag, final String Page,
+                                       final String Rows, final Callback callback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("WaterDate", WaterDate)
+                        .add("Status", Status)
+                        .add("Flag", Flag)
+                        .add("page", Page)
+                        .add("rows", Rows)
+                        .build();
+
+                Request request = new Request.Builder()
+                        .url("http://jwkq.xupt.edu.cn:8080/User/GetAttendList")
+                        .header("Host", "jwkq.xupt.edu.cn:8080")
+                        .addHeader("Connection", "keep-alive")
+                        .addHeader("Accept", "application/json, text/javascript, */*; q=0.01")
+                        .addHeader("Origin", "http://jwkq.xupt.edu.cn:8080")
+                        .addHeader("X-Requested-With", "XMLHttpRequest")
+                        .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+                        .addHeader("Referer", "http://jwkq.xupt.edu.cn:8080/User/Query")
+                        .addHeader("Accept-Encoding", "gzip, deflate")
+                        .addHeader("Accept-Language", "zh-CN,zh;q=0.8")
+                        .addHeader("Cookie", seccessfulCookie)
+                        .post(requestBody)
+                        .build();
+
+                Call call = mOkHttpClient.newCall(request);
+                call.enqueue(callback);
+            }
+        }).start();
+    }
+
+    public static void GetClassRoomMSGRequest(final String ID, final Callback callback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("id", ID)
+                        .add("json", "true")
+                        .build();
+
+                Request request = new Request.Builder()
+                        .url("http://jwkq.xupt.edu.cn:8080/Room/GetListByBuild")
+                        .header("Host", "jwkq.xupt.edu.cn:8080")
+                        .addHeader("Connection", "keep-alive")
+                        .addHeader("Accept", "application/json, text/javascript, */*; q=0.01")
+                        .addHeader("Origin", "http://jwkq.xupt.edu.cn:8080")
+                        .addHeader("X-Requested-With", "XMLHttpRequest")
+                        .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+                        .addHeader("Referer", "http://jwkq.xupt.edu.cn:8080/")
+                        .addHeader("Accept-Encoding", "gzip, deflate")
+                        .addHeader("Accept-Language", "zh-CN,zh;q=0.8")
+                        .post(requestBody)
+                        .build();
+
+                Call call = mOkHttpClient.newCall(request);
+                call.enqueue(callback);
+            }
+        }).start();
+    }
+
+    //获取考勤表信息
+    public static void getAttendance(final Callback callback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                    OkHttpClient att_Okhttp = new OkHttpClient();
+                    RequestBody body = new FormBody.Builder()
+                            .add("json", "true")
+                            .build();
+                    final Request request = new Request.Builder()
+                            .url("http://jwkq.xupt.edu.cn:8080/User/GetAttendRepList")
+                            .header("Cookie", seccessfulCookie)
+                            .post(body)
+                            .build();
+                    Call call = att_Okhttp.newCall(request);
+                    call.enqueue(callback);
             }
         }).start();
     }

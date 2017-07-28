@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp"
+    >
+
+    <RelativeLayout
+        android:id="@+id/card_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/class_item"
+            />
+
+        <TextView
+            android:id="@+id/pyjh_className"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/book"
+            android:layout_alignBottom="@id/book"
+            android:text="面向对象与C++程序设计"
+            android:textSize="18sp"
+            android:textColor="@color/colorperson"
+            />
+
+        <TextView
+            android:id="@+id/pyjh_classNature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_toEndOf="@id/pyjh_className"
+            android:layout_alignBottom="@id/pyjh_className"
+            android:text="必修课"
+            android:textSize="18sp"
+            android:textColor="@color/colorperson"
+            />
+
+        <TextView
+            android:id="@+id/pyjh_credit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="学分："
+            android:textSize="15sp"
+            android:layout_below="@id/book"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="8dp"
+            />
+
+        <TextView
+            android:id="@+id/pyjh_credit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/pyjh_credit"
+            android:text="2.0"
+            android:textSize="18sp"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="3dp"
+            android:layout_below="@id/book"
+            />
+
+        <TextView
+            android:id="@+id/pyjh_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book"
+            android:layout_toEndOf="@id/book"
+            android:layout_marginTop="32dp"
+            android:text="考核方式："
+            android:textSize="15sp"
+            />
+
+        <TextView
+            android:id="@+id/pyjh_test_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/pyjh_test"
+            android:layout_below="@id/pyjh_credit"
+            android:text="校考"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            />
+
+        <TextView
+            android:id="@+id/pyjh_leaningWhere"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book"
+            android:layout_toEndOf="@id/book"
+            android:layout_marginTop="55dp"
+            android:text="建议修读学期："
+            android:textSize="15sp"
+            />
+
+        <TextView
+            android:id="@+id/pyjh_leaningWhere_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/pyjh_leaningWhere"
+            android:layout_below="@id/pyjh_test"
+            android:text="4"
+            android:textSize="17sp"
+            android:layout_marginStart="5dp"
+            />
+
+        <TextView
+            android:id="@+id/pyjh_major"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pyjh_className"
+            android:layout_toEndOf="@id/pyjh_className"
+            android:text="专业方向："
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:id="@+id/pyjh_major_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pyjh_className"
+            android:layout_toEndOf="@id/pyjh_major"
+            android:text="无方向"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            />
+
+        <TextView
+            android:id="@+id/pyjh_starAndEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pyjh_className"
+            android:layout_toEndOf="@id/pyjh_className"
+            android:text="起始结束周："
+            android:textSize="15sp"
+            android:layout_marginTop="33dp"
+            />
+
+        <TextView
+            android:id="@+id/pyjh_starAndEnd_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pyjh_className"
+            android:layout_toEndOf="@id/pyjh_className"
+            android:text="01-18"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            android:layout_marginTop="55dp"
+            android:layout_marginStart="50dp"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/gaizhang"
+            />
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

@@ -93,16 +93,17 @@
 
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp"
-        >
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="0dp"
+            >
 
-        <include layout="@layout/lesson_number" />
+            <include layout="@layout/lesson_number" />
 
-    </ScrollView>
+        </ScrollView>
+
 
 
 </LinearLayout>

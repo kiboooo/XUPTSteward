@@ -114,7 +114,7 @@
         android:id="@+id/GradeRecyclerList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="145dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
@@ -124,7 +124,7 @@
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/ActionMenu"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         app:menu_fab_size="normal"
@@ -151,6 +151,19 @@
             app:fab_label="学分统计"
             android:visibility="gone"
             />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/PYJH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grade_select"
+            app:fab_colorNormal="@color/LoginButton"
+            app:fab_colorPressed="@color/cardview_dark_background"
+            app:fab_size="mini"
+            app:fab_label="培养计划"
+            android:visibility="gone"
+            />
+
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/session1"
             android:layout_width="wrap_content"

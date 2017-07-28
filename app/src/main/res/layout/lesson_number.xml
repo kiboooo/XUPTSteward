@@ -121,6 +121,24 @@
 
         </LinearLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/Lesson_NotMsg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/NOT_MSG"
+                android:textSize="25sp"
+                android:textColor="@color/colorWhite"
+                android:gravity="center"
+                />
+
+            <include layout="@layout/lesson" />
+
+        </FrameLayout>
+
         <include layout="@layout/lesson" />
 
     </LinearLayout>
