@@ -25,7 +25,7 @@ public class MylocationListener implements BDLocationListener {
         double locationLongitude = bdLocation.getLongitude();
         LocationRequest = locationLatitude + ":" + locationLongitude;
 
-        Log.e("onReceiveLocation", LocationName );
+        Log.e("onReceiveLocation", LocationName +"   "+LocationCityName);
         Log.e("onReceiveLocation", LocationRequest);
     }
 

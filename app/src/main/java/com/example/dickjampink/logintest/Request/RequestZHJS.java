@@ -7,13 +7,18 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.EditText;
 
+import com.example.dickjampink.logintest.Syllabus.Syllabus;
 import com.example.dickjampink.logintest.bean.LoginData;
+import com.example.dickjampink.logintest.bean.Syllabus_type;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.Call;
@@ -26,6 +31,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.example.dickjampink.logintest.Syllabus.Syllabus.SUCCESSFUL;
 import static com.example.dickjampink.logintest.activity.MainActivity.JSON;
 
 /**
@@ -284,5 +290,102 @@ public class RequestZHJS {
                     call.enqueue(callback);
             }
         }).start();
+    }
+   public static void getSyllabus(final Handler mHandler) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    LoginData logindata = DataSupport.findLast(LoginData.class);
+                   String Cookie = logindata.getCookie();
+                    OkHttpClient mOkHttpClient = new OkHttpClient();
+                    String session = getSession();
+                    Log.e("Session is :", session);
+                    RequestBody body = new FormBody.Builder()
+                            .add("term_no", session)
+                            .add("json", "true")
+                            .build();
+                    Request request = new Request.Builder()
+                            .url("http://jwkq.xupt.edu.cn:8080/User/GetStuClass")
+                            .addHeader("Cookie", Cookie)
+                            .post(body)
+                            .build();
+                    Call call2 = mOkHttpClient.newCall(request);
+                    //请求加入调度
+                    call2.enqueue(new Callback() {
+                        //失败的回调
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            Message msg = new Message();
+                            msg.what = FALL;
+                            mHandler.sendMessage(msg);
+                        }
+
+                        //成功的回调
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+
+
+                            //刷新ui，okhttp网络请求后，不是在主线程中，如果要刷新ui，必须的主线程中；
+                            if (response.isSuccessful()) {
+                                Log.e("Cookie :", response.headers().toString());
+                                String data = response.body().string();
+
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    if (jsonObject.getBoolean("IsSucceed")) {
+                                        Log.e("返回的数据如下：：  ", data);
+                                        Log.e("OBJ :: ", new JSONObject(data).getJSONArray("Obj").toString());
+                                        JSONArray jsonArray = new JSONObject(data).getJSONArray("Obj");
+                                        if (jsonArray.length() >= 0) {
+                                            save_syllabus_data(jsonArray);
+                                            mHandler.sendEmptyMessage(SUCCESSFUL);
+                                        } else {
+                                            mHandler.sendEmptyMessage(Syllabus.FALL);
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                Message msg = new Message();
+                                mHandler.sendMessage(msg);
+
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    //利用日期类 求出 查询的时间点为哪一个学期；
+    private static String getSession() {
+        Calendar c = Calendar.getInstance();
+        if (c.get(Calendar.MONTH) > 8) {
+            return c.get(Calendar.YEAR) + "-" + (c.get(Calendar.YEAR) + 1) + "-1";
+        }
+        return (c.get(Calendar.YEAR) - 1) + "-" + (c.get(Calendar.YEAR)) + "-2";
+    }
+
+    //储存课表信息
+    private static void save_syllabus_data(JSONArray data) {
+        try {
+            int data_size = data.length();
+            for (int i = 0; i < data_size; i++) {
+                Syllabus_type syllabus_type = new Syllabus_type();
+                JSONObject jsonObject = data.getJSONObject(i);
+                syllabus_type.setWeekNum(jsonObject.getInt("WEEKNUM"));
+                syllabus_type.setS_Name(jsonObject.getString("S_Name"));
+                syllabus_type.setTeach_Name(jsonObject.getString("Teach_Name"));
+                syllabus_type.setJT_NO(jsonObject.getString("JT_NO"));
+                syllabus_type.setRoomNum(jsonObject.getString("RoomNum"));
+                syllabus_type.setBackground(-1);
+                syllabus_type.save();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

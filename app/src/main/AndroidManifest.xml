@@ -34,6 +34,9 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="Xb6RP4cvcZhNksrPp200zVLMfEu0g3H4" />
 
+        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
+        </service>
+
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,6 +59,12 @@
 
         <activity
             android:name=".activity.WeatherActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
+        <activity
+            android:name=".activity.CET4orCET6Activity"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>

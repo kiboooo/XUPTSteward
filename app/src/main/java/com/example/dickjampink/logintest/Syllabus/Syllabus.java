@@ -38,7 +38,9 @@ import com.example.dickjampink.logintest.Fragment.LoginDialogFlagment;
 import com.example.dickjampink.logintest.Listener.MylocationListener;
 import com.example.dickjampink.logintest.R;
 import com.example.dickjampink.logintest.Request.RequestWeather;
+import com.example.dickjampink.logintest.Request.RequestZHJS;
 import com.example.dickjampink.logintest.Request.RequsetZF;
+import com.example.dickjampink.logintest.activity.CET4orCET6Activity;
 import com.example.dickjampink.logintest.activity.MainActivity;
 import com.example.dickjampink.logintest.activity.PYJHActivity;
 import com.example.dickjampink.logintest.activity.WeatherActivity;
@@ -75,10 +77,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static com.example.dickjampink.logintest.R.menu.syllabus;
@@ -89,9 +89,9 @@ public class Syllabus extends AppCompatActivity
         LoginDialogFlagment.LoginInputListener {
 
 
-    private static final int SUCCESSFUL = 4;
-    private static final int GETPICTURE = 3;
-    private static final int FALL = 5;
+    public static final int SUCCESSFUL = 4;
+    public static final int GETPICTURE = 3;
+    public static final int FALL = 5;
 
     private boolean LoginFlage = false;
     private GradeCarData gcd;
@@ -224,7 +224,7 @@ public class Syllabus extends AppCompatActivity
         //加载今天是周几
         setWeek();
         //加载课程表信息
-        getSyllabus();
+        RequestZHJS.getSyllabus(mHandler);
         //加载学生照片
         getPicture_person();
         //加载个人信息页
@@ -376,6 +376,10 @@ public class Syllabus extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
             setAboutDialog();
 
+        }else if (id == R.id.nav_check4or6) {
+            Intent intent = new Intent(Syllabus.this, CET4orCET6Activity.class);
+            startActivity(intent);
+
         } else if (id == R.id.nav_cancel) {
             Snackbar.make(contentSyllabus,"温馨提示：确认注销当前账号吗？",Snackbar.LENGTH_SHORT)
                     .setAction("确认", new View.OnClickListener() {
@@ -450,102 +454,102 @@ public class Syllabus extends AppCompatActivity
 
     }
 
-    //获取课程表
-    private void getSyllabus() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    OkHttpClient mOkHttpClient = new OkHttpClient();
-                    String session = getSession();
-                    Log.e("Session is :", session);
-                    RequestBody body = new FormBody.Builder()
-                            .add("term_no", session)
-                            .add("json", "true")
-                            .build();
-                    Request request = new Request.Builder()
-                            .url("http://jwkq.xupt.edu.cn:8080/User/GetStuClass")
-                            .addHeader("Cookie", Cookie)
-                            .post(body)
-                            .build();
-                    Call call2 = mOkHttpClient.newCall(request);
-                    //请求加入调度
-                    call2.enqueue(new Callback() {
-                        //失败的回调
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            Message msg = new Message();
-                            msg.what = FALL;
-                            mHandler.sendMessage(msg);
-                        }
-
-                        //成功的回调
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-
-
-                            //刷新ui，okhttp网络请求后，不是在主线程中，如果要刷新ui，必须的主线程中；
-                            if (response.isSuccessful()) {
-                                Log.e("Cookie :", response.headers().toString());
-                                String data = response.body().string();
-
-                                try {
-                                    JSONObject jsonObject = new JSONObject(data);
-                                    if (jsonObject.getBoolean("IsSucceed")) {
-                                        Log.e("返回的数据如下：：  ", data);
-                                        Log.e("OBJ :: ", new JSONObject(data).getJSONArray("Obj").toString());
-                                        JSONArray jsonArray = new JSONObject(data).getJSONArray("Obj");
-                                        if (jsonArray.length() >= 0) {
-                                            save_syllabus_data(jsonArray);
-                                            mHandler.sendEmptyMessage(SUCCESSFUL);
-                                        } else {
-                                            mHandler.sendEmptyMessage(FALL);
-                                        }
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                Message msg = new Message();
-                                mHandler.sendMessage(msg);
-
-                            }
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
-    //利用日期类 求出 查询的时间点为哪一个学期；
-    private String getSession() {
-        Calendar c = Calendar.getInstance();
-        if (c.get(Calendar.MONTH) > 8) {
-            return c.get(Calendar.YEAR) + "-" + (c.get(Calendar.YEAR) + 1) + "-1";
-        }
-        return (c.get(Calendar.YEAR) - 1) + "-" + (c.get(Calendar.YEAR)) + "-2";
-    }
-
-    //储存课表信息
-    private void save_syllabus_data(JSONArray data) {
-        try {
-            int data_size = data.length();
-            for (int i = 0; i < data_size; i++) {
-                Syllabus_type syllabus_type = new Syllabus_type();
-                JSONObject jsonObject = data.getJSONObject(i);
-                syllabus_type.setWeekNum(jsonObject.getInt("WEEKNUM"));
-                syllabus_type.setS_Name(jsonObject.getString("S_Name"));
-                syllabus_type.setTeach_Name(jsonObject.getString("Teach_Name"));
-                syllabus_type.setJT_NO(jsonObject.getString("JT_NO"));
-                syllabus_type.setRoomNum(jsonObject.getString("RoomNum"));
-                syllabus_type.setBackground(-1);
-                syllabus_type.save();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+//    //获取课程表
+//    private void getSyllabus() {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    OkHttpClient mOkHttpClient = new OkHttpClient();
+//                    String session = getSession();
+//                    Log.e("Session is :", session);
+//                    RequestBody body = new FormBody.Builder()
+//                            .add("term_no", session)
+//                            .add("json", "true")
+//                            .build();
+//                    Request request = new Request.Builder()
+//                            .url("http://jwkq.xupt.edu.cn:8080/User/GetStuClass")
+//                            .addHeader("Cookie", Cookie)
+//                            .post(body)
+//                            .build();
+//                    Call call2 = mOkHttpClient.newCall(request);
+//                    //请求加入调度
+//                    call2.enqueue(new Callback() {
+//                        //失败的回调
+//                        @Override
+//                        public void onFailure(Call call, IOException e) {
+//                            Message msg = new Message();
+//                            msg.what = FALL;
+//                            mHandler.sendMessage(msg);
+//                        }
+//
+//                        //成功的回调
+//                        @Override
+//                        public void onResponse(Call call, Response response) throws IOException {
+//
+//
+//                            //刷新ui，okhttp网络请求后，不是在主线程中，如果要刷新ui，必须的主线程中；
+//                            if (response.isSuccessful()) {
+//                                Log.e("Cookie :", response.headers().toString());
+//                                String data = response.body().string();
+//
+//                                try {
+//                                    JSONObject jsonObject = new JSONObject(data);
+//                                    if (jsonObject.getBoolean("IsSucceed")) {
+//                                        Log.e("返回的数据如下：：  ", data);
+//                                        Log.e("OBJ :: ", new JSONObject(data).getJSONArray("Obj").toString());
+//                                        JSONArray jsonArray = new JSONObject(data).getJSONArray("Obj");
+//                                        if (jsonArray.length() >= 0) {
+//                                            save_syllabus_data(jsonArray);
+//                                            mHandler.sendEmptyMessage(SUCCESSFUL);
+//                                        } else {
+//                                            mHandler.sendEmptyMessage(FALL);
+//                                        }
+//                                    }
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                Message msg = new Message();
+//                                mHandler.sendMessage(msg);
+//
+//                            }
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
+//    }
+//
+//    //利用日期类 求出 查询的时间点为哪一个学期；
+//    private String getSession() {
+//        Calendar c = Calendar.getInstance();
+//        if (c.get(Calendar.MONTH) > 8) {
+//            return c.get(Calendar.YEAR) + "-" + (c.get(Calendar.YEAR) + 1) + "-1";
+//        }
+//        return (c.get(Calendar.YEAR) - 1) + "-" + (c.get(Calendar.YEAR)) + "-2";
+//    }
+//
+//    //储存课表信息
+//    private void save_syllabus_data(JSONArray data) {
+//        try {
+//            int data_size = data.length();
+//            for (int i = 0; i < data_size; i++) {
+//                Syllabus_type syllabus_type = new Syllabus_type();
+//                JSONObject jsonObject = data.getJSONObject(i);
+//                syllabus_type.setWeekNum(jsonObject.getInt("WEEKNUM"));
+//                syllabus_type.setS_Name(jsonObject.getString("S_Name"));
+//                syllabus_type.setTeach_Name(jsonObject.getString("Teach_Name"));
+//                syllabus_type.setJT_NO(jsonObject.getString("JT_NO"));
+//                syllabus_type.setRoomNum(jsonObject.getString("RoomNum"));
+//                syllabus_type.setBackground(-1);
+//                syllabus_type.save();
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     //利用数据库的数据，建立课程格子
     private void setSyllabus() {
@@ -1032,7 +1036,11 @@ public class Syllabus extends AppCompatActivity
                     MylocationListener.LocationName,MylocationListener.LocationCityName);
             final String url = "http://wx.weather.com.cn/mweather/"
                     + CSDM + ".shtml#1";
+
             Log.e("setWeatherData", url);
+            Log.e("setWeatherData", MylocationListener.LocationName);
+            Log.e("setWeatherData", MylocationListener.LocationCityName);
+            Log.e("setWeatherData", MylocationListener.LocationRequest);
             //天气按钮的监听
             Temperature.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1062,6 +1070,7 @@ public class Syllabus extends AppCompatActivity
                                 @Override
                                 public void run() {
                                     Temperature.setText(temperature);
+                                    Log.e("setWeatherData", temperature);
                                 }
                             });
                         } catch (IOException | JSONException e) {

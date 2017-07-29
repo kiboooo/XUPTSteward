@@ -24,6 +24,7 @@
     <string name="XQ">西区</string>
 
 
-    <string name="WenDu">º</string>
+    <string name="CET4orCET6">请输入15位笔试或口试准考证号</string>
+    <string name="CET4orCET6Name">姓名(超过3个字，输入前3个字)</string>
 
 </resources>

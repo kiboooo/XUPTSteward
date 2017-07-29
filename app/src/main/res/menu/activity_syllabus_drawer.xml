@@ -20,14 +20,19 @@
             android:title="查成绩" />
 
         <item
+            android:id="@+id/nav_check4or6"
+            android:icon="@drawable/ic_card_cet_black_24dp"
+            android:title="四六级成绩" />
+
+       <item
             android:id="@+id/nav_library"
             android:icon="@drawable/ic_library"
-            android:title="图书馆" />
+            android:title="邮电图书馆" />
 
         <item
             android:id="@+id/nav_PE"
             android:icon="@drawable/ic_timer_black_24dp"
-            android:title="体育部" />
+            android:title="邮电体育部" />
 
     </group>
 

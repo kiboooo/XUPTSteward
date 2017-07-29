@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/CETToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorperson"
+            app:title="四六级成绩（含口试）查询结果"
+            app:titleTextColor="@color/colorWhite"
+            >
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="姓\t\t\t名\t"
+        android:textSize="18sp"
+        android:textColor="@color/colorperson"
+        android:layout_marginTop="85dp"
+        android:layout_marginStart="50dp"
+        />
+
+    <TextView
+        android:id="@+id/Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginTop="85dp"
+        android:layout_marginStart="130dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="学\t\t\t校\t"
+        android:textSize="18sp"
+        android:textColor="@color/colorperson"
+        android:layout_marginTop="120dp"
+        android:layout_marginStart="50dp"
+        />
+
+    <TextView
+        android:id="@+id/school"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginTop="120dp"
+        android:layout_marginStart="130dp"
+        />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="155dp"
+        android:text="考试级别\t"
+        android:textColor="@color/colorperson"
+        android:textSize="18sp"
+        />
+
+    <TextView
+        android:id="@+id/grade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="155dp"
+        android:textSize="18sp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="180dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/colorperson"
+        android:text="笔试成绩"
+        android:textSize="20sp"
+        android:textColor="@color/colorWhite"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:text="准考证号"
+        android:textColor="@color/colorperson"
+        android:textSize="18sp"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="90dp"
+        />
+
+    <TextView
+        android:id="@+id/checknumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:textSize="18sp"
+        android:layout_marginStart="150dp"
+        android:layout_marginBottom="90dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:text="总\t\t\t\t\t分\t\t"
+        android:textColor="@color/colorperson"
+        android:textSize="18sp"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:id="@+id/checkgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:layout_marginStart="150dp"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:text="听\t\t\t力\t\t"
+        android:textColor="@color/item4"
+        android:textSize="18sp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="40dp"
+        />
+
+    <TextView
+        android:id="@+id/hearGrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:textSize="18sp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="40dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:text="阅\t\t\t读\t\t"
+        android:textColor="@color/item4"
+        android:textSize="18sp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="100dp"
+        />
+
+    <TextView
+        android:id="@+id/readGrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:textSize="18sp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="100dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:text="写作和翻译\t"
+        android:textColor="@color/item4"
+        android:textSize="18sp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="160dp"
+        />
+
+    <TextView
+        android:id="@+id/writerGrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|start"
+        android:textSize="18sp"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="160dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="150dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/colorperson"
+        android:text="口试成绩"
+        android:textSize="20sp"
+        android:textColor="@color/colorWhite"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:text="准考证号\t\t"
+        android:textColor="@color/colorperson"
+        android:textSize="18sp"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="110dp"
+        />
+
+    <TextView
+        android:id="@+id/sayNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:textSize="18sp"
+        android:layout_marginStart="150dp"
+        android:layout_marginBottom="110dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:text="等\t\t\t\t\t\t级\t\t"
+        android:textColor="@color/colorperson"
+        android:textSize="18sp"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="80dp"
+        />
+
+    <TextView
+        android:id="@+id/sayGrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:textSize="18sp"
+        android:layout_marginStart="150dp"
+        android:layout_marginBottom="80dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:text="注：最终结果请以《成绩报告单》为准。"
+        android:layout_marginBottom="10dp"
+        />
+
+
+
+
+</android.support.design.widget.CoordinatorLayout>

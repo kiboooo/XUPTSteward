@@ -179,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * LocationClient类是定位SDK的核心类，具体方法详见类参考。
          */
         mLocationClient = new LocationClient(getApplicationContext());
+
         //设置Client的Location的请求监听器
         mLocationClient.registerLocationListener(new MylocationListener());
 

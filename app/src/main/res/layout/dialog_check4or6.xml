@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/mAppTheme"
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:scaleType="center"
+        android:background="@drawable/cet4orcet6"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="15"
+        app:counterOverflowTextAppearance="@style/OverflowTextAppearance"
+        app:counterTextAppearance="@style/cet4orcetNormal"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/cet4orcetError">
+
+        <com.example.dickjampink.logintest.EditText.OnClearEditText
+            android:id="@+id/number"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="@string/CET4orCET6"
+            android:inputType="number"
+            android:textColor="@color/colorperson"
+            >
+        </com.example.dickjampink.logintest.EditText.OnClearEditText>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="3"
+        app:counterOverflowTextAppearance="@style/OverflowTextAppearance"
+        app:counterTextAppearance="@style/cet4orcetNormal"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/cet4orcetError">
+
+    <EditText
+        android:id="@+id/CETname"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif"
+        android:hint="@string/CET4orCET6Name"
+        android:textColorHint="@color/colorGradeMenu"
+        android:inputType="none" />
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>
