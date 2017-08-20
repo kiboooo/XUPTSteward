@@ -936,7 +936,9 @@ public class Syllabus extends AppCompatActivity
                                 String ddlXN = "&ddlXN=" + (calendar.get(Calendar.YEAR) - 1)
                                         + "-" + (calendar.get(Calendar.YEAR));
                                 Log.e("calendar", calendar.get(Calendar.MONTH) + "--" + calendar.get(Calendar.DAY_OF_MONTH));
-                                if (calendar.get(Calendar.MONTH) + 1 >= 7 && calendar.get(Calendar.DAY_OF_MONTH) > 17) {
+                                if(calendar.get(Calendar.MONTH) + 1 > 7)
+                                    ddlXQ = "&ddlXQ=2";
+                                else if (calendar.get(Calendar.MONTH) + 1 == 7 && calendar.get(Calendar.DAY_OF_MONTH) > 17) {
                                     ddlXQ = "&ddlXQ=2";
                                 } else {
                                     ddlXQ = "&ddlXQ=1";
