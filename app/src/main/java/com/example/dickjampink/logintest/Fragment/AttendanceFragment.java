@@ -24,6 +24,7 @@ import com.example.dickjampink.logintest.adapter.AttendanceAdapter;
 import com.example.dickjampink.logintest.adapter.CheckAttAdapter;
 import com.example.dickjampink.logintest.adapter.ClassRoomAdapter;
 import com.example.dickjampink.logintest.bean.AttendanceData;
+import com.example.dickjampink.logintest.bean.CheckAttData;
 import com.example.dickjampink.logintest.bean.ClassRoomData;
 import com.example.dickjampink.logintest.bean.RequestKQBody;
 
@@ -274,8 +275,7 @@ public class AttendanceFragment extends Fragment {
                     initCheckBoxControl(normalCB, lateCB, abnormalCB,requestKQBody);
                     requestKQBody.setPage("1");
                     requestKQBody.setRows("10");
-                    /*未完成*/
-                    initCheckAttAdapter(view, requestKQBody);
+                    initCheckAttAdapter(requestKQBody);
                 }
             });
         } else if (mPage == 3) {
@@ -323,7 +323,7 @@ public class AttendanceFragment extends Fragment {
     }
 
 
-    public void initCheckAttAdapter(final View view, final RequestKQBody RKQB ){
+    public void initCheckAttAdapter(final RequestKQBody RKQB ){
         //请求考勤表的数据,数据请求完毕后，利用runOnUiThread在UI线程中进行UI加载。
         Log.e("initCheckAttAdapter", "请求的数据--》" +RKQB.getWaterDate()+" "
                 +RKQB.getStatus()+" "+RKQB.getFlag()+" "+RKQB.getPage()+" "
@@ -338,17 +338,43 @@ public class AttendanceFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()){
-                    Log.e("initCheckAttAdapter", "请求成功--》" + response.body().string());
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //未实例化Adapter
-//                            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.check_display);
-//                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
-//                            recyclerView.setLayoutManager(linearLayoutManager);
-//                            recyclerView.setAdapter(adapter);
+
+                    try {
+                        List<CheckAttData> CADs= new ArrayList<>();
+                        String b = response.body().string();
+                        Log.e("initCheckAttAdapter", b);
+                        JSONObject jsonObject = new JSONObject(b);
+                        int Total = jsonObject.getInt("total");
+                        Log.e("initCheckAttAdapter", Total + "");
+                        JSONArray jsonArray = jsonObject.getJSONArray("rows");
+                        for (int i = 0; i < Total; i++) {
+                            CheckAttData CAD  = new CheckAttData();
+                            CAD.setBName(jsonArray.getJSONObject(i).getString("BName"));
+                            CAD.setJT_No(jsonArray.getJSONObject(i).getString("JT_No"));
+                            CAD.setRoomNum(jsonArray.getJSONObject(i).getString("RoomNum"));
+                            CAD.setS_Name(jsonArray.getJSONObject(i).getString("S_Name"));
+                            CAD.setWaterTime(jsonArray.getJSONObject(i).getString("WaterTime"));
+                            CAD.setStatus(jsonArray.getJSONObject(i).getString("Status"));
+                            CADs.add(CAD);
+                            Log.e("initCheckAttAdapter", CAD.toStirng());
                         }
-                    });
+                        final List<CheckAttData> finalCADs = CADs;
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TextView Detail_NotMsg = (TextView) getActivity().findViewById(R.id.Detail_NotMsg);
+                                Detail_NotMsg.setText("");
+                                RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.check_display);
+                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                                CheckAttAdapter adapter = new CheckAttAdapter(finalCADs);
+                                recyclerView.setLayoutManager(linearLayoutManager);
+                                recyclerView.setAdapter(adapter);
+                            }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
         });

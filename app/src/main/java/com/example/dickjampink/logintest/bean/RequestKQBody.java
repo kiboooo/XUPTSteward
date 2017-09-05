@@ -36,20 +36,43 @@ public class RequestKQBody {
 
     public void setWaterDate(int Status) {
         Calendar c = Calendar.getInstance();
-        int  year = c.get(Calendar.YEAR);
+        String Month = null, Day = null;
+        int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH)+1;
         int day = c.get(Calendar.DATE);
+        if (month < 10) {
+            Month = "0" + month;
+        } else Month = "" + month;
+        if (day < 10) {
+            Day = "0" + day;
+        } else Day = "" + day;
         setStatus(Status+"");
         if (Status == 1) {
-            WaterDate = year + "-" + month + "-" + day + "a" + year + "-" + month + "-" + day;
+            WaterDate = year + "-" + Month + "-" + Day + "a" + year + "-" + Month + "-" + Day;
         } else if (Status == 2) {
-            int nowDaty = c.get(Calendar.DAY_OF_MONTH);
-            c.set(Calendar.DATE, nowDaty - 7);
-            WaterDate = c.get(Calendar.YEAR) + "-" +( c.get(Calendar.MONTH)+1) + "-" + c.get(Calendar.DATE) + "a" + year + "-" + month + "-" + day;
+            int nowDay = c.get(Calendar.DAY_OF_MONTH);
+            c.set(Calendar.DATE, nowDay - 7);
+            if (c.get(Calendar.MONTH) + 1 < 10){
+                if (c.get(Calendar.DATE) < 10) {
+                    WaterDate = c.get(Calendar.YEAR) + "-0" + (c.get(Calendar.MONTH) + 1) + "-0" + c.get(Calendar.DATE) + "a" + year + "-" + Month + "-" + Day;
+                }else
+                WaterDate = c.get(Calendar.YEAR) + "-0" +( c.get(Calendar.MONTH)+1) + "-" + c.get(Calendar.DATE) + "a" + year + "-" + Month + "-" + Day;
+            }else if (c.get(Calendar.DATE) < 10)
+            WaterDate = c.get(Calendar.YEAR) + "-" +( c.get(Calendar.MONTH)+1) + "-0" + c.get(Calendar.DATE) + "a" + year + "-" + Month + "-" + Day;
+            else
+                WaterDate = c.get(Calendar.YEAR) + "-" +( c.get(Calendar.MONTH)+1) + "-" + c.get(Calendar.DATE) + "a" + year + "-" + Month + "-" + Day;
         } else if (Status == 3) {
             int nowMonth = c.get(Calendar.MONTH);
             c.set(Calendar.MONTH, nowMonth - 1);
-            WaterDate = c.get(Calendar.YEAR) + "-" + (c.get(Calendar.MONTH)+1) + "-" + c.get(Calendar.DATE) + "a" + year + "-" + month + "-" + day;
+            if (c.get(Calendar.MONTH) + 1 < 10){
+                if (c.get(Calendar.DATE) < 10) {
+                    WaterDate = c.get(Calendar.YEAR) + "-0" + (c.get(Calendar.MONTH) + 1) + "-0" + c.get(Calendar.DATE) + "a" + year + "-" + Month + "-" + Day;
+                }else
+                    WaterDate = c.get(Calendar.YEAR) + "-0" +( c.get(Calendar.MONTH)+1) + "-" + c.get(Calendar.DATE) + "a" + year + "-" + Month + "-" + Day;
+            }else if (c.get(Calendar.DATE) < 10)
+                WaterDate = c.get(Calendar.YEAR) + "-" +( c.get(Calendar.MONTH)+1) + "-0" + c.get(Calendar.DATE) + "a" + year + "-" + Month + "-" + Day;
+            else
+                WaterDate = c.get(Calendar.YEAR) + "-" +( c.get(Calendar.MONTH)+1) + "-" + c.get(Calendar.DATE) + "a" + year + "-" + Month + "-" + Day;
         }
     }
 

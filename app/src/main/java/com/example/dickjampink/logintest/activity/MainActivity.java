@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int GETPICTURE = 0;
     private static final int FALL = 2;
     private static final int LOGIN_FALL = 3;
-    private static final int LOGIN_SUCCESS = 4;
+    private static final int LOGIN_SUCCESS = 44;
 
     private SharedPreferences pref;
     private LocationClient mLocationClient;

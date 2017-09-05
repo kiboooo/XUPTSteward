@@ -43,7 +43,7 @@ public class RequestZHJS {
     private static final int GETPICTURE = 0;
     private static final int FALL = 2;
     private static final int LOGIN_FALL = 3;
-    private static final int LOGIN_SUCCESS = 4;
+    private static final int LOGIN_SUCCESS = 44;
 
     private final static String TAG = "MainActivity";
     private static OkHttpClient mOkHttpClient;
@@ -147,15 +147,11 @@ public class RequestZHJS {
                             if (response.isSuccessful()) {
                                 String data = response.body().string();
                                 try {
-                                    Log.e(TAG, "jsonArray 前 : "+data);
                                     JSONObject jsonObject = new JSONObject(data);
-                                    Log.e(TAG, "COOKIE_HEADERS：：" + response.headers());
-                                    Log.e(TAG,"    ++++ "+jsonObject.length());
                                     if (jsonObject.length() >= 0) {
 
                                         if (jsonObject.getBoolean("IsSucceed")) {
                                             Headers headers = response.headers();
-                                            Log.e("Login seccess headers::", headers.toString());
                                             //获取登录成功的Cookie
                                             List<String> cookies = headers.values("Set-Cookie");
                                             String login_cookie = cookies.get(0);
@@ -174,7 +170,6 @@ public class RequestZHJS {
                                             loginD.save();
                                             Log.e(TAG, "IsSucceed : "+data);
                                             Log.e(TAG, jsonObject.getJSONObject("Obj").getString("NAME"));
-
                                             Message message = mHandler.obtainMessage();
                                             message.obj = user_pass;
                                             message.what = LOGIN_SUCCESS;
@@ -222,18 +217,11 @@ public class RequestZHJS {
                         .add("rows", Rows)
                         .build();
 
+                Log.e("initCheckAttAdapter", seccessfulCookie);
                 Request request = new Request.Builder()
                         .url("http://jwkq.xupt.edu.cn:8080/User/GetAttendList")
-                        .header("Host", "jwkq.xupt.edu.cn:8080")
-                        .addHeader("Connection", "keep-alive")
-                        .addHeader("Accept", "application/json, text/javascript, */*; q=0.01")
-                        .addHeader("Origin", "http://jwkq.xupt.edu.cn:8080")
-                        .addHeader("X-Requested-With", "XMLHttpRequest")
-                        .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-                        .addHeader("Referer", "http://jwkq.xupt.edu.cn:8080/User/Query")
-                        .addHeader("Accept-Encoding", "gzip, deflate")
-                        .addHeader("Accept-Language", "zh-CN,zh;q=0.8")
-                        .addHeader("Cookie", seccessfulCookie)
+                        .addHeader("Cookie",seccessfulCookie)
+                        .addHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8")
                         .post(requestBody)
                         .build();
 
@@ -297,17 +285,15 @@ public class RequestZHJS {
             public void run() {
                 try {
                     LoginData logindata = DataSupport.findLast(LoginData.class);
-                   String Cookie = logindata.getCookie();
                     OkHttpClient mOkHttpClient = new OkHttpClient();
                     String session = getSession();
-                    Log.e("Session is :", session);
                     RequestBody body = new FormBody.Builder()
                             .add("term_no", session)
                             .add("json", "true")
                             .build();
                     Request request = new Request.Builder()
                             .url("http://jwkq.xupt.edu.cn:8080/User/GetStuClass")
-                            .addHeader("Cookie", Cookie)
+                            .addHeader("Cookie", seccessfulCookie)
                             .post(body)
                             .build();
                     Call call2 = mOkHttpClient.newCall(request);
@@ -317,7 +303,7 @@ public class RequestZHJS {
                         @Override
                         public void onFailure(Call call, IOException e) {
                             Message msg = new Message();
-                            msg.what = FALL;
+                            msg.what = Syllabus.FALL;
                             mHandler.sendMessage(msg);
                         }
 
@@ -328,14 +314,12 @@ public class RequestZHJS {
 
                             //刷新ui，okhttp网络请求后，不是在主线程中，如果要刷新ui，必须的主线程中；
                             if (response.isSuccessful()) {
-                                Log.e("Cookie :", response.headers().toString());
                                 String data = response.body().string();
-
                                 try {
                                     JSONObject jsonObject = new JSONObject(data);
                                     if (jsonObject.getBoolean("IsSucceed")) {
-                                        Log.e("返回的数据如下：：  ", data);
-                                        Log.e("OBJ :: ", new JSONObject(data).getJSONArray("Obj").toString());
+                                        Log.e("78返回的数据如下", data);
+                                        Log.e("78OBJ :: ", new JSONObject(data).getJSONArray("Obj").toString());
                                         JSONArray jsonArray = new JSONObject(data).getJSONArray("Obj");
                                         if (jsonArray.length() >= 0) {
                                             save_syllabus_data(jsonArray);
@@ -363,7 +347,7 @@ public class RequestZHJS {
     //利用日期类 求出 查询的时间点为哪一个学期；
     private static String getSession() {
         Calendar c = Calendar.getInstance();
-        if (c.get(Calendar.MONTH) > 8) {
+        if (c.get(Calendar.MONTH)+1 > 8) {
             return c.get(Calendar.YEAR) + "-" + (c.get(Calendar.YEAR) + 1) + "-1";
         }
         return (c.get(Calendar.YEAR) - 1) + "-" + (c.get(Calendar.YEAR)) + "-2";

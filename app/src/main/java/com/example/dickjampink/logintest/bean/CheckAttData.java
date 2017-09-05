@@ -2,36 +2,71 @@ package com.example.dickjampink.logintest.bean;
 
 /**
  * Created by Kiboooo on 2017/7/14.
- * 等智慧教室接口好了之后，需要按照查询出来的信息，修改这个data类。
+ *
  */
 
 public class CheckAttData {
-    private String ClassName;
-    private String ClassLocation;
-    private String ClassTime;
+    private String BName;
+    private String JT_No;
+    private String RoomNum;
+    private String S_Name;
+    private String Status;
+    private String WaterTime;
 
-    public String getClassLocation() {
-        return ClassLocation;
+    public String getBName() {
+        return BName;
     }
 
-    public String getClassName() {
-        return ClassName;
+    public String getJT_No() {
+        return JT_No;
     }
 
-    public String getClassTime() {
-        return ClassTime;
+    public String getRoomNum() {
+        return RoomNum;
     }
 
-    public void setClassLocation(String classLocation) {
-        ClassLocation = classLocation;
+    public String getS_Name() {
+        return S_Name;
     }
 
-    public void setClassName(String className) {
-        ClassName = className;
+    public String getStatus() {
+        return Status;
     }
 
-    public void setClassTime(String classTime) {
-        ClassTime = classTime;
+    public String getWaterTime() {
+        return WaterTime;
+    }
+
+    public void setBName(String BName) {
+        this.BName = BName;
+    }
+
+    public void setJT_No(String JT_No) {
+        this.JT_No = JT_No;
+    }
+
+    public void setRoomNum(String roomNum) {
+        RoomNum = roomNum;
+    }
+
+    public void setS_Name(String s_Name) {
+        S_Name = s_Name;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    public void setWaterTime(String waterTime) {
+        WaterTime = waterTime;
+    }
+
+    public String toStirng () {
+        return BName+JT_No
+        + RoomNum
+        + S_Name
+        + Status
+        + WaterTime;
     }
 }
 

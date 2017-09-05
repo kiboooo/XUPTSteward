@@ -102,7 +102,6 @@ public class Syllabus extends AppCompatActivity
     private View contentSyllabus,contentChecking,contentPersonMsg,contentWebView,contentGradeView;
     private WebView wv;
     private LoginData logindata;
-    private String Cookie;
     private CircleImageView personImage_big;
     private CircleImageView personImage_small;
     private static ProgressDialog progressDialog;
@@ -128,7 +127,8 @@ public class Syllabus extends AppCompatActivity
             R.drawable.syllabus_grid_type01, R.drawable.syllabus_grid_type02,
             R.drawable.syllabus_grid_type03, R.drawable.syllabus_grid_type04,
             R.drawable.syllabus_grid_type05, R.drawable.syllabus_grid_type06,
-            R.drawable.syllabus_grid_type07
+            R.drawable.syllabus_grid_type07, R.drawable.syllabus_grid_type08,
+            R.drawable.syllabus_grid_type09, R.drawable.syllabus_grid_type10
     };
 
     private final int Week_back[] = {
@@ -148,6 +148,8 @@ public class Syllabus extends AppCompatActivity
                     personImage_small.setImageBitmap(ui_bm);
                     break;
                 case SUCCESSFUL:
+                    TextView NOMsg = (TextView) findViewById(R.id.Lesson_NotMsg);
+                    NOMsg.setVisibility(View.GONE);
                     setSyllabus();
                     break;
                 case FALL:
@@ -170,7 +172,7 @@ public class Syllabus extends AppCompatActivity
         setSupportActionBar(toolbar);
         logindata = new LoginData();
         logindata = DataSupport.findLast(LoginData.class);
-        Cookie = logindata.getCookie();
+//        Cookie = logindata.getCookie();
 
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -403,7 +405,6 @@ public class Syllabus extends AppCompatActivity
         ViewPager viewPager = (ViewPager) contentChecking.findViewById(R.id.CheckMain);
         CheckAdapter adapter = new CheckAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
-
         TabLayout tabLayout = (TabLayout) contentChecking.findViewById(R.id.CheckTitle);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -454,131 +455,32 @@ public class Syllabus extends AppCompatActivity
 
     }
 
-//    //获取课程表
-//    private void getSyllabus() {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    OkHttpClient mOkHttpClient = new OkHttpClient();
-//                    String session = getSession();
-//                    Log.e("Session is :", session);
-//                    RequestBody body = new FormBody.Builder()
-//                            .add("term_no", session)
-//                            .add("json", "true")
-//                            .build();
-//                    Request request = new Request.Builder()
-//                            .url("http://jwkq.xupt.edu.cn:8080/User/GetStuClass")
-//                            .addHeader("Cookie", Cookie)
-//                            .post(body)
-//                            .build();
-//                    Call call2 = mOkHttpClient.newCall(request);
-//                    //请求加入调度
-//                    call2.enqueue(new Callback() {
-//                        //失败的回调
-//                        @Override
-//                        public void onFailure(Call call, IOException e) {
-//                            Message msg = new Message();
-//                            msg.what = FALL;
-//                            mHandler.sendMessage(msg);
-//                        }
-//
-//                        //成功的回调
-//                        @Override
-//                        public void onResponse(Call call, Response response) throws IOException {
-//
-//
-//                            //刷新ui，okhttp网络请求后，不是在主线程中，如果要刷新ui，必须的主线程中；
-//                            if (response.isSuccessful()) {
-//                                Log.e("Cookie :", response.headers().toString());
-//                                String data = response.body().string();
-//
-//                                try {
-//                                    JSONObject jsonObject = new JSONObject(data);
-//                                    if (jsonObject.getBoolean("IsSucceed")) {
-//                                        Log.e("返回的数据如下：：  ", data);
-//                                        Log.e("OBJ :: ", new JSONObject(data).getJSONArray("Obj").toString());
-//                                        JSONArray jsonArray = new JSONObject(data).getJSONArray("Obj");
-//                                        if (jsonArray.length() >= 0) {
-//                                            save_syllabus_data(jsonArray);
-//                                            mHandler.sendEmptyMessage(SUCCESSFUL);
-//                                        } else {
-//                                            mHandler.sendEmptyMessage(FALL);
-//                                        }
-//                                    }
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                Message msg = new Message();
-//                                mHandler.sendMessage(msg);
-//
-//                            }
-//                        }
-//                    });
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
-//    }
-//
-//    //利用日期类 求出 查询的时间点为哪一个学期；
-//    private String getSession() {
-//        Calendar c = Calendar.getInstance();
-//        if (c.get(Calendar.MONTH) > 8) {
-//            return c.get(Calendar.YEAR) + "-" + (c.get(Calendar.YEAR) + 1) + "-1";
-//        }
-//        return (c.get(Calendar.YEAR) - 1) + "-" + (c.get(Calendar.YEAR)) + "-2";
-//    }
-//
-//    //储存课表信息
-//    private void save_syllabus_data(JSONArray data) {
-//        try {
-//            int data_size = data.length();
-//            for (int i = 0; i < data_size; i++) {
-//                Syllabus_type syllabus_type = new Syllabus_type();
-//                JSONObject jsonObject = data.getJSONObject(i);
-//                syllabus_type.setWeekNum(jsonObject.getInt("WEEKNUM"));
-//                syllabus_type.setS_Name(jsonObject.getString("S_Name"));
-//                syllabus_type.setTeach_Name(jsonObject.getString("Teach_Name"));
-//                syllabus_type.setJT_NO(jsonObject.getString("JT_NO"));
-//                syllabus_type.setRoomNum(jsonObject.getString("RoomNum"));
-//                syllabus_type.setBackground(-1);
-//                syllabus_type.save();
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     //利用数据库的数据，建立课程格子
     private void setSyllabus() {
         List<Syllabus_type> texts = DataSupport.findAll(Syllabus_type.class);
         String ui_control;
-        int rand_background;
-
+        int rand_background = 0;
         for (Syllabus_type text : texts) {
             int[] time_base = syllabus_time(text.getJT_NO());
             if (text.getBackground() == -1) {
-                Log.e("S_name：：：", text.getS_Name());
-                rand_background = (int) (Math.random() * 7);
                 text.setBackground(rand_background);
                 for (Syllabus_type up : texts) {
                     if (up.getS_Name().compareTo(text.getS_Name()) == 0) {
                         up.setBackground(rand_background);
                     }
                 }
+                rand_background++;
                 Log.e("The table is ：：：", text.getS_Name() + "   " + text.getBackground() + "  " + rand_background);
-            } else
-                rand_background = text.getBackground();
+            }
             for (int aTime_base : time_base) {
                 if (aTime_base % 2 == 0)
                     ui_control = text.getTeach_Name() + "\n" + text.getRoomNum();
                 else
                     ui_control = text.getS_Name();
                 TextView w_view = (TextView) findViewById(w[aTime_base][text.getWeekNum()]);
+                w_view.setTextColor(Color.WHITE);
                 w_view.setText(ui_control);
-                w_view.setBackgroundResource(Background[rand_background]);
+                w_view.setBackgroundResource(Background[text.getBackground()]);
             }
         }
     }

@@ -19,7 +19,10 @@ public class FloatingMenuData {
         SessionNumber = 0;
         else {
             Calendar calendar = Calendar.getInstance();
-            if (calendar.get(Calendar.MONTH) + 1 >= 7 && calendar.get(Calendar.DAY_OF_MONTH) > 17)
+            if (calendar.get(Calendar.MONTH) + 1 > 7) {
+                SessionNumber = (sessionNumber - 1) * 2 + 1;
+            }
+            else if (calendar.get(Calendar.MONTH) + 1 == 7 && calendar.get(Calendar.DAY_OF_MONTH) > 17)
                 SessionNumber = (sessionNumber - 1) * 2 + 1;
             else SessionNumber = (sessionNumber - 1) * 2;
         }
