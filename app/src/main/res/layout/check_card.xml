@@ -78,8 +78,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:maxLines="2"
-            android:text="正常签到"
-            android:textColor="@color/coloryindao" />
+            android:text="未上课"
+            android:textColor="@color/colorGradeMenuBackgrond" />
 
     </LinearLayout>
 
