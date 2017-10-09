@@ -14,7 +14,6 @@ import com.example.dickjampink.logintest.bean.Syllabus_type;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -279,16 +278,17 @@ public class RequestZHJS {
             }
         }).start();
     }
-   public static void getSyllabus(final Handler mHandler) {
+   public static void getSyllabus(final long week,final Handler mHandler) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    LoginData logindata = DataSupport.findLast(LoginData.class);
+//                    LoginData logindata = DataSupport.findLast(LoginData.class);
                     OkHttpClient mOkHttpClient = new OkHttpClient();
                     String session = getSession();
                     RequestBody body = new FormBody.Builder()
                             .add("term_no", session)
+                            .add("week",String.valueOf(week))
                             .add("json", "true")
                             .build();
                     Request request = new Request.Builder()
@@ -302,6 +302,7 @@ public class RequestZHJS {
                         //失败的回调
                         @Override
                         public void onFailure(Call call, IOException e) {
+                            Log.e("onFailure", "请求课表失败");
                             Message msg = new Message();
                             msg.what = Syllabus.FALL;
                             mHandler.sendMessage(msg);
@@ -310,11 +311,11 @@ public class RequestZHJS {
                         //成功的回调
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
-
-
                             //刷新ui，okhttp网络请求后，不是在主线程中，如果要刷新ui，必须的主线程中；
                             if (response.isSuccessful()) {
+
                                 String data = response.body().string();
+                                Log.e("onResponse", "请求课表成功" + data);
                                 try {
                                     JSONObject jsonObject = new JSONObject(data);
                                     if (jsonObject.getBoolean("IsSucceed")) {

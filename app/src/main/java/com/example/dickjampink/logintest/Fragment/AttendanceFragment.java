@@ -340,11 +340,12 @@ public class AttendanceFragment extends Fragment {
                 if (response.isSuccessful()){
 
                     try {
-                        List<CheckAttData> CADs= new ArrayList<>();
+                        final List<CheckAttData> CADs= new ArrayList<>();
                         String b = response.body().string();
                         Log.e("initCheckAttAdapter", b);
                         JSONObject jsonObject = new JSONObject(b);
                         int Total = jsonObject.getInt("total");
+                        Total = Total > 10 ? 10 : Total;
                         Log.e("initCheckAttAdapter", Total + "");
                         JSONArray jsonArray = jsonObject.getJSONArray("rows");
                         for (int i = 0; i < Total; i++) {
@@ -358,15 +359,15 @@ public class AttendanceFragment extends Fragment {
                             CADs.add(CAD);
                             Log.e("initCheckAttAdapter", CAD.toStirng());
                         }
-                        final List<CheckAttData> finalCADs = CADs;
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                Log.e("jinlaile", "kjdshfkjsdhgjlkshlkj");
                                 TextView Detail_NotMsg = (TextView) getActivity().findViewById(R.id.Detail_NotMsg);
                                 Detail_NotMsg.setText("");
                                 RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.check_display);
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                                CheckAttAdapter adapter = new CheckAttAdapter(finalCADs);
+                                CheckAttAdapter adapter = new CheckAttAdapter(CADs);
                                 recyclerView.setLayoutManager(linearLayoutManager);
                                 recyclerView.setAdapter(adapter);
                             }

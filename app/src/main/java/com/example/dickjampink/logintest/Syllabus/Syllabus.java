@@ -68,9 +68,13 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -225,8 +229,15 @@ public class Syllabus extends AppCompatActivity
         setWeatherData(headerView);
         //加载今天是周几
         setWeek();
-        //加载课程表信息
-        RequestZHJS.getSyllabus(mHandler);
+        //加载课程表信息,每次开学请输入开学日期格式：yyyy-MM-dd
+        try {
+            long HowManyWeeks = getWeak("2017-08-29");
+            Log.e("HowManyWeeks", HowManyWeeks+"");
+            RequestZHJS.getSyllabus(HowManyWeeks,mHandler);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         //加载学生照片
         getPicture_person();
         //加载个人信息页
@@ -234,6 +245,23 @@ public class Syllabus extends AppCompatActivity
         //初始化 Floating Action Button AND Menu
         initFloatingActionButton();
 
+    }
+
+    public static long getWeak(String startDate) throws ParseException
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        Date date = sdf.parse(startDate);
+        long start = date.getTime();
+        long now = System.currentTimeMillis();
+        long weakMS = 1000*60*60*24*7;
+        long gone = now-start;
+        int weeks =(int)(gone/weakMS);
+        float weeksAsFloat = (float)gone/(float)weakMS;
+        if(weeksAsFloat>weeks)
+        {
+            weeks=weeks+1;
+        }
+        return weeks;
     }
 
 
