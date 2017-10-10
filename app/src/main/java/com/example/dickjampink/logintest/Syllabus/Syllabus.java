@@ -231,7 +231,7 @@ public class Syllabus extends AppCompatActivity
         setWeek();
         //加载课程表信息,每次开学请输入开学日期格式：yyyy-MM-dd
         try {
-            long HowManyWeeks = getWeak("2017-08-29");
+            long HowManyWeeks = getWeak("2017-09-03");
             Log.e("HowManyWeeks", HowManyWeeks+"");
             RequestZHJS.getSyllabus(HowManyWeeks,mHandler);
         } catch (ParseException e) {
@@ -257,6 +257,7 @@ public class Syllabus extends AppCompatActivity
         long gone = now-start;
         int weeks =(int)(gone/weakMS);
         float weeksAsFloat = (float)gone/(float)weakMS;
+        Log.e("getWeak", weeks + "   " + weeksAsFloat);
         if(weeksAsFloat>weeks)
         {
             weeks=weeks+1;
