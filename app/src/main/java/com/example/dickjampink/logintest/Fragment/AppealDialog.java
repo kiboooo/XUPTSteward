@@ -49,6 +49,8 @@ public class AppealDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_appeal, null);
         mCheckAttData = (CheckAttData) getActivity().getIntent().getSerializableExtra("date");
 
+
+
         Remark = (EditText) view.findViewById(R.id.appeal_message);
         ClassName = (TextView) view.findViewById(R.id.appeal_class_name);
         ClassDate = (TextView) view.findViewById(R.id.appeal_date);
