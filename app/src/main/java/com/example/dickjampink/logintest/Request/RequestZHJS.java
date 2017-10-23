@@ -283,7 +283,6 @@ public class RequestZHJS {
             @Override
             public void run() {
                 try {
-//                    LoginData logindata = DataSupport.findLast(LoginData.class);
                     OkHttpClient mOkHttpClient = new OkHttpClient();
                     String session = getSession();
                     RequestBody body = new FormBody.Builder()

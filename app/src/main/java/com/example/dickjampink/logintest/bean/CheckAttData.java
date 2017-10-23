@@ -1,17 +1,44 @@
 package com.example.dickjampink.logintest.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Kiboooo on 2017/7/14.
  *
  */
 
-public class CheckAttData {
+public class CheckAttData implements Serializable {
+    private String Class_No;
     private String BName;
     private String JT_No;
     private String RoomNum;
     private String S_Name;
     private String Status;
     private String WaterTime;
+    private String RBH;
+    private String SBH;
+    private String WaterDate;
+    private String Term_No;
+
+    public String getClass_No() {
+        return Class_No;
+    }
+
+    public String getRBH() {
+        return RBH;
+    }
+
+    public String getSBH() {
+        return SBH;
+    }
+
+    public String getWaterDate() {
+        return WaterDate;
+    }
+
+    public String getTerm_No() {
+        return Term_No;
+    }
 
     public String getBName() {
         return BName;
@@ -59,6 +86,26 @@ public class CheckAttData {
 
     public void setWaterTime(String waterTime) {
         WaterTime = waterTime;
+    }
+
+    public void setRBH(String RBH) {
+        this.RBH = RBH;
+    }
+
+    public void setSBH(String SBH) {
+        this.SBH = SBH;
+    }
+
+    public void setWaterDate(String waterDate) {
+        WaterDate = waterDate;
+    }
+
+    public void setTerm_No(String term_No) {
+        Term_No = term_No;
+    }
+
+    public void setClass_No(String class_No) {
+        Class_No = class_No;
     }
 
     public String toStirng () {

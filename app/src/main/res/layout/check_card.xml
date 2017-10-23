@@ -91,17 +91,29 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="8dp"
             android:background="@drawable/location" />
 
         <TextView
             android:id="@+id/BNanme"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="match_parent"
-            android:gravity="center|start"
+            android:gravity="center"
             android:text="长安校区西区基础教学B楼"
             android:textSize="16sp"
             />
+
+
+        <Button
+            android:id="@+id/Check_appeal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="申诉"
+            android:background="@drawable/syllabus_grid_type07"
+            android:visibility="gone"
+            />
+
     </LinearLayout>
 
     <ImageView

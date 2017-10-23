@@ -45,7 +45,7 @@ import okhttp3.Response;
  *
  */
 
-public class AttendanceFragment extends Fragment {
+public class AttendanceFragment extends Fragment implements AppealDialog.AppealDialogInputListener {
 
     public static final String TAB_PAGE = "tab_page";
 
@@ -80,6 +80,7 @@ public class AttendanceFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = null;
         if (mPage == 1){
+            /*教学楼教室查询*/
             view = inflater.inflate(R.layout.content_classroom, container, false);
             final android.support.v7.widget.Toolbar toolbar =
                     (android.support.v7.widget.Toolbar) view.findViewById(R.id.ClassRoomToolBar);
@@ -250,6 +251,7 @@ public class AttendanceFragment extends Fragment {
 
         }else if (mPage == 2)
         {
+            /*考勤信息*/
             view = inflater.inflate(R.layout.content_checking_detail, container, false);
             Button checkButton = (Button) view.findViewById(R.id.checkButton);
             final RequestKQBody requestKQBody = new RequestKQBody();
@@ -279,6 +281,7 @@ public class AttendanceFragment extends Fragment {
                 }
             });
         } else if (mPage == 3) {
+            /*考勤出席统计*/
             view = inflater.inflate(R.layout.content_checking, container, false);
             if (att_data.isEmpty()) {
                 initAttendance(view);
@@ -351,23 +354,27 @@ public class AttendanceFragment extends Fragment {
                         for (int i = 0; i < Total; i++) {
                             CheckAttData CAD  = new CheckAttData();
                             CAD.setBName(jsonArray.getJSONObject(i).getString("BName"));
+                            CAD.setClass_No(jsonArray.getJSONObject(i).getString("Class_No"));
                             CAD.setJT_No(jsonArray.getJSONObject(i).getString("JT_No"));
                             CAD.setRoomNum(jsonArray.getJSONObject(i).getString("RoomNum"));
                             CAD.setS_Name(jsonArray.getJSONObject(i).getString("S_Name"));
                             CAD.setWaterTime(jsonArray.getJSONObject(i).getString("WaterTime"));
                             CAD.setStatus(jsonArray.getJSONObject(i).getString("Status"));
+                            CAD.setRBH(jsonArray.getJSONObject(i).getString("RBH"));
+                            CAD.setSBH(jsonArray.getJSONObject(i).getString("SBH"));
+                            CAD.setTerm_No(jsonArray.getJSONObject(i).getString("Term_No"));
+                            CAD.setWaterDate(jsonArray.getJSONObject(i).getString("WaterDate"));
                             CADs.add(CAD);
                             Log.e("initCheckAttAdapter", CAD.toStirng());
                         }
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Log.e("jinlaile", "kjdshfkjsdhgjlkshlkj");
                                 TextView Detail_NotMsg = (TextView) getActivity().findViewById(R.id.Detail_NotMsg);
                                 Detail_NotMsg.setText("");
                                 RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.check_display);
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                                CheckAttAdapter adapter = new CheckAttAdapter(CADs);
+                                CheckAttAdapter adapter = new CheckAttAdapter(CADs,getActivity());
                                 recyclerView.setLayoutManager(linearLayoutManager);
                                 recyclerView.setAdapter(adapter);
                             }
@@ -443,4 +450,11 @@ public class AttendanceFragment extends Fragment {
         progressDialog.dismiss();
     }
 
+
+    @Override
+    public void onAppealDialogInputComplete(String RemarkMSG, CheckAttData checkAttData) {
+        Toast.makeText(getContext(),
+                "RemarkMSG= "+RemarkMSG+"checkAttData= "+checkAttData.toStirng(),
+                Toast.LENGTH_SHORT).show();
+    }
 }
