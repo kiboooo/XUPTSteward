@@ -1,6 +1,7 @@
 package com.example.dickjampink.logintest.activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,7 +17,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private CheckBox rememberPass;
     private ImageView image_auth;
+    private ProgressDialog LoginDialog;
 
     public static MediaType JSON;
 
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 case LOGIN_SUCCESS:
                     //若登录成功，则加载下一个页
+                    LoginDialog.dismiss();
                     byte[] u_p = (byte[]) msg.obj;
                     String base = new String(u_p);
                     int i = base.indexOf(' ');
@@ -103,10 +105,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     finish();
                     break;
                 case FALL:
+                    LoginDialog.dismiss();
                     Toast.makeText(MainActivity.this, "网络出现了问题", Toast.LENGTH_SHORT).show();
                     RequestZHJS.getPicture(mHandler);
                     break;
                 case LOGIN_FALL:
+                    LoginDialog.dismiss();
                     if (accountEdit.length() == 0)
                         accountLayout.setError("学号不能为空！");
                     else if (accountEdit.length() < 8 || accountEdit.length() > 8)
@@ -128,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("llll: ", "返回后调用的是这个！！");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         /**
@@ -223,20 +226,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         accountLayout = (TextInputLayout) findViewById(R.id.input_user);
         passwordLayout = (TextInputLayout) findViewById(R.id.input_password);
         authcodeLayout = (TextInputLayout) findViewById(R.id.auth_code);
-
-
         accountEdit = (EditText) findViewById(account);
-
         passwordEdit = (EditText) findViewById(password);
-
         authcodeEdit = (EditText) findViewById(R.id.authCode);
-
-
         image_auth = (ImageView) findViewById(R.id.authImage);
-
         rememberPass = (CheckBox) findViewById(R.id.remenber_password);
-
         Button login = (Button) findViewById(R.id.login);
+        LoginDialog = new ProgressDialog(this);
+        LoginDialog.setMessage("登录中...");
+        LoginDialog.setCancelable(false);
+
         login.setOnClickListener(this);
         image_auth.setOnClickListener(this);
 
@@ -262,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login:
+                LoginDialog.show();
                 RequestZHJS.sendRequest(mHandler, accountEdit, passwordEdit, authcodeEdit);
                 break;
 

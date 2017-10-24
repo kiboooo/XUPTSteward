@@ -37,13 +37,15 @@
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
         </service>
 
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.WelcomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Syllabus.Syllabus"
             android:label="课程表"
@@ -54,6 +56,11 @@
         <activity
             android:name=".activity.PYJHActivity"
             android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
+        <activity
+            android:name=".activity.MainActivity">
 
         </activity>
 

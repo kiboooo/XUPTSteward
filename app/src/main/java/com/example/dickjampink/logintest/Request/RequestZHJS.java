@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -56,7 +57,11 @@ public class RequestZHJS {
             public void run() {
                 try {
                     String mUrl = "http://jwkq.xupt.edu.cn:8080/Common/GetValidateCode?time="+System.currentTimeMillis();
-                    mOkHttpClient = new OkHttpClient();
+                    mOkHttpClient = new OkHttpClient.Builder()
+                            .connectTimeout(20, TimeUnit.SECONDS)
+                            .readTimeout(20, TimeUnit.SECONDS)
+                            .build();
+
                     //创建一个Request
                     final Request request = new Request.Builder()
                             .url(mUrl)
@@ -108,6 +113,7 @@ public class RequestZHJS {
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 try {
                     final String account = accountEdit.getText().toString();
                     final String password = passwordEdit.getText().toString();
