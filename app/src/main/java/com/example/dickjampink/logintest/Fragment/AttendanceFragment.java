@@ -45,7 +45,7 @@ import okhttp3.Response;
  *
  */
 
-public class AttendanceFragment extends Fragment implements AppealDialog.AppealDialogInputListener {
+public class AttendanceFragment extends Fragment {
 
     public static final String TAB_PAGE = "tab_page";
 
@@ -280,6 +280,7 @@ public class AttendanceFragment extends Fragment implements AppealDialog.AppealD
                     initCheckAttAdapter(requestKQBody);
                 }
             });
+
         } else if (mPage == 3) {
             /*考勤出席统计*/
             view = inflater.inflate(R.layout.content_checking, container, false);
@@ -374,7 +375,7 @@ public class AttendanceFragment extends Fragment implements AppealDialog.AppealD
                                 Detail_NotMsg.setText("");
                                 RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.check_display);
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                                CheckAttAdapter adapter = new CheckAttAdapter(CADs,getActivity());
+                                adapter = new CheckAttAdapter(CADs,getActivity());
                                 recyclerView.setLayoutManager(linearLayoutManager);
                                 recyclerView.setAdapter(adapter);
                             }
@@ -450,11 +451,4 @@ public class AttendanceFragment extends Fragment implements AppealDialog.AppealD
         progressDialog.dismiss();
     }
 
-
-    @Override
-    public void onAppealDialogInputComplete(String RemarkMSG, CheckAttData checkAttData) {
-        Toast.makeText(getContext(),
-                "RemarkMSG= "+RemarkMSG+"checkAttData= "+checkAttData.toStirng(),
-                Toast.LENGTH_SHORT).show();
-    }
 }

@@ -82,4 +82,11 @@
         <item name="android:textColor">@color/colorWhite</item>
         <item name="textAllCaps">true</item>
     </style>
+
+    <style name="AppTheme.Splash" parent="AppTheme.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/back</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>

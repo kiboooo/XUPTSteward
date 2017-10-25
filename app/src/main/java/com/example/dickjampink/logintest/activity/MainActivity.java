@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private CheckBox rememberPass;
     private ImageView image_auth;
-    private ProgressDialog LoginDialog;
+   public static ProgressDialog LoginDialog;
 
     public static MediaType JSON;
 
@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 case LOGIN_SUCCESS:
                     //若登录成功，则加载下一个页
-                    LoginDialog.dismiss();
                     byte[] u_p = (byte[]) msg.obj;
                     String base = new String(u_p);
                     int i = base.indexOf(' ');
@@ -101,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         editor.clear();
                     }
                     editor.apply();
+//                    LoginDialog.dismiss();
                     startActivity(intent);
                     finish();
                     break;
@@ -248,7 +248,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             accountEdit.setText(account);
             passwordEdit.setText(password);
-
             rememberPass.setChecked(true);
         }
 
@@ -331,4 +330,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
         mLocationClient.stop();
     }
+
 }

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -24,12 +25,15 @@ public class AppealDialog extends DialogFragment {
     private TextView ClassName,ClassDate;
     private CheckAttData mCheckAttData;
 
-    public static AppealDialog newInstance(CheckAttData mCheckAttData) {
+    public static AppealDialog newInstance(CheckAttData CheckAttData) {
+
         AppealDialog dialog = new AppealDialog();
         Bundle msg = new Bundle();
-        msg.putSerializable("data", mCheckAttData);
+        Log.e("AppealDialog", CheckAttData.toStirng());
+        msg.putSerializable("data", CheckAttData);
         dialog.setArguments(msg);
         return dialog;
+
     }
 
 
@@ -43,20 +47,23 @@ public class AppealDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_appeal, null);
-        mCheckAttData = (CheckAttData) getActivity().getIntent().getSerializableExtra("date");
 
-
+        /*获取传入的序列化好的data数据*/
+        mCheckAttData = (CheckAttData) getArguments().getSerializable("data");
 
         Remark = (EditText) view.findViewById(R.id.appeal_message);
         ClassName = (TextView) view.findViewById(R.id.appeal_class_name);
         ClassDate = (TextView) view.findViewById(R.id.appeal_date);
 
-//        ClassName.setText(mCheckAttData.getS_Name());
-//        ClassDate.setText(mCheckAttData.getWaterDate());
+        if (mCheckAttData != null) {
+            ClassName.setText(mCheckAttData.getS_Name());
+            ClassDate.setText(mCheckAttData.getWaterDate());
+        }else
+            Log.e("mCheckAttData", "is null");
 
         builder.setView(view)
                 .setPositiveButton("申  诉",

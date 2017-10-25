@@ -34,6 +34,7 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dickjampink.logintest.Fragment.AppealDialog;
 import com.example.dickjampink.logintest.Fragment.LoginDialogFlagment;
 import com.example.dickjampink.logintest.Listener.MylocationListener;
 import com.example.dickjampink.logintest.R;
@@ -47,6 +48,7 @@ import com.example.dickjampink.logintest.activity.WeatherActivity;
 import com.example.dickjampink.logintest.adapter.CheckAdapter;
 import com.example.dickjampink.logintest.adapter.CreditCollectAdapter;
 import com.example.dickjampink.logintest.adapter.GradeAdapter;
+import com.example.dickjampink.logintest.bean.CheckAttData;
 import com.example.dickjampink.logintest.bean.CreditCollectData;
 import com.example.dickjampink.logintest.bean.FloatingMenuData;
 import com.example.dickjampink.logintest.bean.GradeCarData;
@@ -90,12 +92,17 @@ import static com.example.dickjampink.logintest.R.menu.syllabus;
 public class Syllabus extends AppCompatActivity
         implements
         NavigationView.OnNavigationItemSelectedListener,
-        LoginDialogFlagment.LoginInputListener {
+        LoginDialogFlagment.LoginInputListener,
+        AppealDialog.AppealDialogInputListener
+{
 
 
     public static final int SUCCESSFUL = 4;
     public static final int GETPICTURE = 3;
     public static final int FALL = 5;
+
+    private final int APPEAL_SUCCESS = 1024;
+    private final int APPEAL_FALL = 1023;
 
     private boolean LoginFlage = false;
     private GradeCarData gcd;
@@ -158,6 +165,14 @@ public class Syllabus extends AppCompatActivity
                     break;
                 case FALL:
                     break;
+                /*申诉成功*/
+                case APPEAL_SUCCESS:
+                    Toast.makeText(Syllabus.this,"申请成功",Toast.LENGTH_SHORT).show();
+                    break;
+                /*申诉失败*/
+                case APPEAL_FALL:
+                    Toast.makeText(Syllabus.this,"该记录已被申请过，请等待审核!",Toast.LENGTH_SHORT).show();
+                    break;
                 default:
                     break;
             }
@@ -169,14 +184,12 @@ public class Syllabus extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_syllabus);
-
         //获取数据表实例
         LitePal.getDatabase();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         logindata = new LoginData();
         logindata = DataSupport.findLast(LoginData.class);
-//        Cookie = logindata.getCookie();
 
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -237,6 +250,9 @@ public class Syllabus extends AppCompatActivity
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        //关闭Dialog
+        MainActivity.LoginDialog.dismiss();
 
         //加载学生照片
         getPicture_person();
@@ -331,7 +347,6 @@ public class Syllabus extends AppCompatActivity
                     }).show();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -369,7 +384,6 @@ public class Syllabus extends AppCompatActivity
             contentPersonMsg.setVisibility(View.VISIBLE);
             contentWebView.setVisibility(View.GONE);
             contentGradeView.setVisibility(View.GONE);
-//            RequsetZF.GetPYJHList(this);
 
         } else if (id == R.id.nav_library) {
             toolbar.setTitle("图书馆");
@@ -400,18 +414,19 @@ public class Syllabus extends AppCompatActivity
                 showLoginDialog();
             else
                 setGradeDisplay(gcd);
-
-
         } else if (id == R.id.nav_aboutour) {
+            /*关于页*/
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             setAboutDialog();
 
         }else if (id == R.id.nav_check4or6) {
+            /*查4-6级成绩*/
             Intent intent = new Intent(Syllabus.this, CET4orCET6Activity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_cancel) {
+            /*注销页*/
             Snackbar.make(contentSyllabus,"温馨提示：确认注销当前账号吗？",Snackbar.LENGTH_SHORT)
                     .setAction("确认", new View.OnClickListener() {
                         @Override
@@ -1017,5 +1032,15 @@ public class Syllabus extends AppCompatActivity
             Log.e("setWeatherData", e.toString());
         }
 
+    }
+
+
+    /*考勤表申述逻辑处理*/
+    @Override
+    public void onAppealDialogInputComplete(String RemarkMSG, CheckAttData checkAttData) {
+//        Toast.makeText(this,
+//                "RemarkMSG= "+RemarkMSG+"checkAttData= "+checkAttData.toStirng(),
+//                Toast.LENGTH_SHORT).show();
+        RequestZHJS.AppealRequset(RemarkMSG, checkAttData, mHandler, APPEAL_SUCCESS, APPEAL_FALL);
     }
 }

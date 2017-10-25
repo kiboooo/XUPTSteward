@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.example.dickjampink.logintest.Syllabus.Syllabus;
+import com.example.dickjampink.logintest.bean.CheckAttData;
 import com.example.dickjampink.logintest.bean.LoginData;
 import com.example.dickjampink.logintest.bean.Syllabus_type;
 
@@ -147,7 +148,6 @@ public class RequestZHJS {
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
 
-
                             //刷新ui，okhttp网络请求后，不是在主线程中，如果要刷新ui，必须的主线程中；
                             if (response.isSuccessful()) {
                                 String data = response.body().string();
@@ -190,6 +190,7 @@ public class RequestZHJS {
                                         Log.e(TAG, "jsonArray.length() < 0 : "+data);
                                     }
                                 } catch (JSONException e) {
+                                    mHandler.sendEmptyMessage(LOGIN_FALL);
                                     e.printStackTrace();
                                 }
                                 Log.e(TAG, data);
@@ -202,6 +203,7 @@ public class RequestZHJS {
                         }
                     });
                 } catch (Exception e) {
+                    mHandler.sendEmptyMessage(LOGIN_FALL);
                     e.printStackTrace();
                 }
             }
@@ -377,5 +379,67 @@ public class RequestZHJS {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static void AppealRequset(final String Msg, final CheckAttData data,
+                                      final Handler mHander,final int success,final int fall) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .readTimeout(10, TimeUnit.SECONDS)
+                        .connectTimeout(10, TimeUnit.SECONDS)
+                        .build();
+
+                    JSON = MediaType.parse("application/json; charset=utf-8");
+                    JSONObject json = new JSONObject();
+                    json.put("Remark", Msg);
+                    json.put("A_Status", "1");
+                    json.put("Class_no", data.getClass_No());
+                    json.put("Jc", data.getJT_No());
+                    json.put("R_BH",data.getRBH());
+                    json.put("S_Code",data.getSBH());
+                    json.put("S_Date", data.getWaterDate());
+                    json.put("S_Status",data.getStatus());
+                    json.put("Term", data.getTerm_No());
+                    RequestBody body = RequestBody.create(JSON, json.toString());
+                    Log.e("AppealRequset json is ", json.toString());
+
+
+                Request request = new Request.Builder()
+                        .url("http://jwkq.xupt.edu.cn:8080/Apply/ApplyData")
+                        .addHeader("Cookie", seccessfulCookie)
+                        .addHeader("Host", "jwkq.xupt.edu.cn:8080")
+                        .addHeader("Accept","application/json, text/javascript, */*; q=0.01")
+                        .addHeader("Origin","http://jwkq.xupt.edu.cn:8080")
+                        .addHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8")
+                        .addHeader("Referer","http://jwkq.xupt.edu.cn:8080/User/Query")
+                        .post(body)
+                        .build();
+
+                    Response response = client.newCall(request).execute();
+                    if (response.isSuccessful()) {
+                        String content = response.body().string();
+                        Log.e("AppealRequset body is ", content);
+                        if (new JSONObject(content).getBoolean("IsSucceed")) {
+                            mHander.sendEmptyMessage(success);
+                        }else
+                            mHander.sendEmptyMessage(fall);
+                    }else
+                        mHander.sendEmptyMessage(fall);
+
+                } catch (IOException e) {
+                    mHander.sendEmptyMessage(fall);
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    mHander.sendEmptyMessage(fall);
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

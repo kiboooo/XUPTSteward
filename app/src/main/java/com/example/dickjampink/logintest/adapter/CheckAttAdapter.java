@@ -101,8 +101,8 @@ public class CheckAttAdapter extends  RecyclerView.Adapter<CheckAttAdapter.ViewH
 
     /*弹出一个填写申请的Dialog*/
     private void Appeal(int position) {
-        AppealDialog appealDialog = AppealDialog.newInstance(mCAtt.get(position));
-        appealDialog.show(mActivity.getFragmentManager(),"appeal");
+        Log.e("Appeal", "position = " + position + "  " + mCAtt.get(position).toStirng());
+        AppealDialog.newInstance(mCAtt.get(position)).show(mActivity.getFragmentManager(),"appeal");
     }
 
 }

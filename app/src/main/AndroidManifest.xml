@@ -37,11 +37,10 @@
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
         </service>
 
-        <activity android:name=".activity.WelcomeActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activity.SplashActivity"
+            android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
