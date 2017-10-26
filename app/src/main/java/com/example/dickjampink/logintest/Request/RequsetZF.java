@@ -110,7 +110,7 @@ public class RequsetZF {
                 try {
                     OkHttpClient client = new OkHttpClient();
                     RequestBody requestBody = new FormBody.Builder()
-                            .add("__VIEWSTATE", "dDwtNTE2MjI4MTQ7Oz5O9kSeYykjfN0r53Yqhqckbvd83A==")
+                            .add("__VIEWSTATE", "dDwxNTMxMDk5Mzc0Ozs+lYSKnsl/mKGQ7CKkWFJpv0btUa8=")
                             .add("txtUserName", Username)
                             .add("Textbox1", "")
                             .add("TextBox2", Password)
@@ -123,7 +123,7 @@ public class RequsetZF {
                             .build();
 
                     final Request request = new Request.Builder()
-                            .url("http://222.24.62.120/default2.aspx ")
+                            .url("http://222.24.62.120/default2.aspx")
                             .header("Cookie", auth_Cookie)
                             .post(requestBody)
                             .build();

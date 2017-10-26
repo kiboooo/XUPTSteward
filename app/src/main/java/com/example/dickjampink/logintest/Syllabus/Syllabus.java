@@ -611,7 +611,9 @@ public class Syllabus extends AppCompatActivity
             gd.setClassNAME(elements.get(i).select("td").get(3).text());
             gd.setClassCREDIT(Double.parseDouble(elements.get(i).select("td").get(6).text()));
             gd.setClassNATURE(elements.get(i).select("td").get(4).text());
-            gd.setGrade(elements.get(i).select("td").get(8).text());
+            //判断是否有补考成绩
+            gd.setGrade(elements.get(i).select("td").get(10).text().compareTo("  ")==128?
+                    elements.get(i).select("td").get(8).text():elements.get(i).select("td").get(10).text());
             gd.setGPA(Double.parseDouble(elements.get(i).select("td").get(7).text()));
             gcd.AddGradeArray(gd);
         }
