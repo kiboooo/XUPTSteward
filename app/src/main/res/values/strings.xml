@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">西邮Steward</string>
+    <string name="app_name">西邮Grade</string>
     <string name="title_activity_syllabus">Syllabus</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

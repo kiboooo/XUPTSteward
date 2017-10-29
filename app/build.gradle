@@ -1,8 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'XUPT'
+            keyPassword '785478'
+            storeFile file('H:/Learning/Android_JKS/XUPT.jks')
+            storePassword '785478'
+        }
+    }
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.example.dickjampink.logintest"
         minSdkVersion 21
@@ -20,7 +28,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -37,7 +45,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:25.3.1'
     compile 'org.jsoup:jsoup:1.10.3'
     compile 'com.github.clans:fab:1.6.4'
-    compile fileTree(dir: 'libs',include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.loopeer.library:cardstack:1.0.2'
     testCompile 'junit:junit:4.12'
 }
