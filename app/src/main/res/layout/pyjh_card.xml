@@ -39,7 +39,7 @@
             android:id="@+id/pyjh_classNature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/pyjh_className"
             android:layout_alignBottom="@id/pyjh_className"
             android:text="必修课"
@@ -120,10 +120,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/pyjh_className"
-            android:layout_toEndOf="@id/pyjh_className"
+            android:layout_toEndOf="@id/pyjh_credit_text"
             android:text="专业方向："
             android:textSize="15sp"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="80dp"
             />
 
         <TextView
@@ -143,23 +144,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/pyjh_className"
-            android:layout_toEndOf="@id/pyjh_className"
+            android:layout_toEndOf="@id/pyjh_test_text"
             android:text="起始结束周："
             android:textSize="15sp"
             android:layout_marginTop="33dp"
+            android:layout_marginStart="50dp"
             />
 
         <TextView
             android:id="@+id/pyjh_starAndEnd_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/pyjh_className"
-            android:layout_toEndOf="@id/pyjh_className"
+            android:layout_below="@id/pyjh_major_text"
+            android:layout_toEndOf="@id/pyjh_starAndEnd"
             android:text="01-18"
             android:textColor="@color/colorPrimary"
             android:textSize="15sp"
-            android:layout_marginTop="55dp"
-            android:layout_marginStart="50dp"
+            android:layout_marginTop="3dp"
             />
 
         <ImageView
