@@ -63,6 +63,7 @@ public class RequestWeather {
             }
         }
         in.close();
+
         //若找不到返回北京的天气
         return CityCode;
     }
