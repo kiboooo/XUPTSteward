@@ -55,7 +55,6 @@ public class CheckAttAdapter extends  RecyclerView.Adapter<CheckAttAdapter.ViewH
             case 1:
                 holder.Status.setText("正常签到");
                 holder.Status.setTextColor(Color.GREEN);
-
                 break;
             case 2:
                 holder.Status.setText("迟到");

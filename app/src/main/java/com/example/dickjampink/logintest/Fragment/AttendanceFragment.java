@@ -446,7 +446,7 @@ public class AttendanceFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.att_table_display);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
-        AttendanceAdapter adapter = new AttendanceAdapter(att_data);
+        AttendanceAdapter adapter = new AttendanceAdapter(getContext(),att_data);
         recyclerView.setAdapter(adapter);
         progressDialog.dismiss();
     }
