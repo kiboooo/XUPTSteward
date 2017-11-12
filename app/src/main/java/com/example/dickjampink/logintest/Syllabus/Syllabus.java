@@ -392,7 +392,8 @@ public class Syllabus extends AppCompatActivity
             contentPersonMsg.setVisibility(View.GONE);
             contentWebView.setVisibility(View.VISIBLE);
             contentGradeView.setVisibility(View.GONE);
-            searchUrl(webViewNotMsg,"http://lib.xupt.edu.cn/wap/index.html#xylib_search_1");
+//            searchUrl(webViewNotMsg,"http://lib.xupt.edu.cn/wap/index.html#xylib_search_1");
+            searchUrl(webViewNotMsg,"https://lib.xiyoumobile.com/");
 
         } else if (id == R.id.nav_PE) {
             toolbar.setTitle("体育部");

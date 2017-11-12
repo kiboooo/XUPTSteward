@@ -51,13 +51,5 @@
         android:layout_height="wrap_content"
         android:text="Organization : 西邮移动应用开发实验室"
         />
-    <TextView
-        android:id="@+id/organization2"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quote : 图书馆内容引用自西邮学塘公众号"
-        android:textSize="10sp"
-        />
 
 </LinearLayout>
