@@ -38,6 +38,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
         AttendanceData attendance = mAttendance.get(position);
 //        holder.ClassName.setText(attendance.getClassName());
 //        holder.Attend.setText(attendance.getAttendProbability());
@@ -45,7 +46,8 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
 //        holder.Late.setText(attendance.getLateProbability());
         holder.pieChart.setCenterText(attendance.getClassName());
         showChart1(holder.pieChart,getPieData(attendance.getAttend(),
-                attendance.getAbsence(),attendance.getShouldAttend()));
+                attendance.getShouldAttend()-attendance.getAttend()-attendance.getAbsence()
+                ,attendance.getAbsence()));
     }
 
     @Override
@@ -106,14 +108,14 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
         pieChart.animateXY(1000, 1000);  //设置动画
     }
 
-    private PieData getPieData(int machine_using,int machine_free,int machine_abandon) {
+    private PieData getPieData(int attend,int late,int absence) {
 
         ArrayList<String> xValues = new ArrayList<>();  //xVals用来表示每个饼块上的内容
 
 
-        xValues.add("出席" + "(" + machine_free + ")");  //饼块上显示成Quarterly1, Quarterly2, Quarterly3, Quarterly4
-        xValues.add("迟到" + "(" + machine_using + ")");
-        xValues.add("缺席" + "(" + machine_abandon + ")");
+        xValues.add("出席" + "(" + attend+ ")");  //饼块上显示成Quarterly1, Quarterly2, Quarterly3, Quarterly4
+        xValues.add("迟到" + "(" + late+ ")");
+        xValues.add("缺席" + "(" + absence + ")");
 
 
         ArrayList<Entry> yValues = new ArrayList<Entry>();  //yVals用来表示封装每个饼块的实际数据
@@ -123,9 +125,9 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
          * 将一个饼形图分成四部分， 四部分的数值比例为14:14:34:38
          * 所以 14代表的百分比就是14%
          */
-        float quarterly1 = (float) ((float) machine_free*1.0/(machine_abandon+machine_free+machine_using)*100);
-        float quarterly2 = (float) ((float) machine_using*1.0/(machine_abandon+machine_free+machine_using)*100);
-        float quarterly3 = (float) ((float) machine_abandon*1.0/(machine_abandon+machine_free+machine_using)*100);
+        float quarterly1 = (float) ((float) attend * 1.0 / (attend + late + absence) * 100);
+        float quarterly2 = (float) ((float) late*1.0/(attend + late + absence)*100);
+        float quarterly3 = (float) ((float) absence*1.0/(attend + late + absence)*100);
 
         yValues.add(new Entry(quarterly1, 0));
         yValues.add(new Entry(quarterly2, 1));
