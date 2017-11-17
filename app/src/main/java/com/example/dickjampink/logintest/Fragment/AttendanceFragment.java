@@ -82,8 +82,7 @@ public class AttendanceFragment extends Fragment {
         if (mPage == 1){
             /*教学楼教室查询*/
             view = inflater.inflate(R.layout.content_classroom, container, false);
-            final android.support.v7.widget.Toolbar toolbar =
-                    (android.support.v7.widget.Toolbar) view.findViewById(R.id.ClassRoomToolBar);
+            final android.support.v7.widget.Toolbar toolbar = view.findViewById(R.id.ClassRoomToolBar);
             toolbar.inflateMenu(R.menu.classroom_select);
             final View finalView = view;
             toolbar.setOnMenuItemClickListener(new android.support.v7.widget.Toolbar.OnMenuItemClickListener() {
@@ -262,6 +261,11 @@ public class AttendanceFragment extends Fragment {
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    /**
+                     * i=1；请求今天的数据
+                     * i=2；请求这一周的数据
+                     * i=3；请求这一个月的数据
+                     */
                     requestKQBody.setWaterDate(i+1);
                 }
 
@@ -276,7 +280,7 @@ public class AttendanceFragment extends Fragment {
                 public void onClick(final View view) {
                     initCheckBoxControl(normalCB, lateCB, abnormalCB,requestKQBody);
                     requestKQBody.setPage("1");
-                    requestKQBody.setRows("10");
+                    requestKQBody.setRows("20");
                     initCheckAttAdapter(requestKQBody);
                 }
             });
@@ -402,6 +406,7 @@ public class AttendanceFragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String body = response.body().string();
+                    Log.e("getAttendance", body);
                     try {
                         JSONArray jsonArray = new JSONObject(body).getJSONArray("Obj");
                         att_data = new ArrayList<>();

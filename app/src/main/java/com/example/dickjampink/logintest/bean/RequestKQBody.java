@@ -34,19 +34,25 @@ public class RequestKQBody {
         return WaterDate;
     }
 
+    /*获取所需要请求的日期*/
     public void setWaterDate(int Status) {
         Calendar c = Calendar.getInstance();
         String Month = null, Day = null;
+
         int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH)+1;
+        int month = c.get(Calendar.MONTH) + 1;
         int day = c.get(Calendar.DATE);
+
+        //控制个位数格式
         if (month < 10) {
             Month = "0" + month;
         } else Month = "" + month;
         if (day < 10) {
             Day = "0" + day;
         } else Day = "" + day;
+
         setStatus(Status+"");
+
         if (Status == 1) {
             WaterDate = year + "-" + Month + "-" + Day + "a" + year + "-" + Month + "-" + Day;
         } else if (Status == 2) {

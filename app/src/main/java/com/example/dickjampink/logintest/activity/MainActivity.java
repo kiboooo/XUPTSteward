@@ -266,6 +266,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.authImage:
                 RequestZHJS.getPicture(mHandler);
+//                Glide.with(this)
+//                        .load("http://jwkq.xupt.edu.cn:8080/Common/GetValidateCode?time="
+//                                + System.currentTimeMillis()).into(image_auth);
                 break;
 
         }

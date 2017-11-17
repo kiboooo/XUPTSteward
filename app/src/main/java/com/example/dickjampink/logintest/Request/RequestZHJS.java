@@ -52,12 +52,14 @@ public class RequestZHJS {
     private static String auth_Cookie;
     private static String seccessfulCookie;
 
+    /*智慧教室验证码请求*/
     public static void getPicture(final Handler mHandler) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     String mUrl = "http://jwkq.xupt.edu.cn:8080/Common/GetValidateCode?time="+System.currentTimeMillis();
+
                     mOkHttpClient = new OkHttpClient.Builder()
                             .connectTimeout(20, TimeUnit.SECONDS)
                             .readTimeout(20, TimeUnit.SECONDS)
@@ -109,6 +111,7 @@ public class RequestZHJS {
 
     }
 
+    /*智慧教室登录请求*/
     public static void sendRequest(final Handler mHandler, final EditText accountEdit,
                                    final EditText passwordEdit, final EditText authcodeEdit){
         new Thread(new Runnable() {
@@ -123,9 +126,10 @@ public class RequestZHJS {
                     json.put("UserName", accountEdit.getText().toString().trim());
                     json.put("UserPassword", passwordEdit.getText().toString().trim());
                     json.put("ValiCode", authcodeEdit.getText().toString().trim());
+
                     RequestBody body = RequestBody.create(JSON, json.toString());
+                    Log.e("dengluJSON", json.toString());
                     final Request request = new Request.Builder()
-                            .header("Host", "jwkq.xupt.edu.cn:8080")
                             .addHeader("Cookie", auth_Cookie)
                             .url("http://jwkq.xupt.edu.cn:8080/Account/Login")
                             .post(body)
@@ -210,6 +214,7 @@ public class RequestZHJS {
         }).start();
     }
 
+    /*智慧教室考勤信息获取接口*/
     public static void CheckMsgRequest(final String WaterDate, final String Status,
                                        final String Flag, final String Page,
                                        final String Rows, final Callback callback) {
@@ -238,6 +243,7 @@ public class RequestZHJS {
         }).start();
     }
 
+    /*获取学校所有教室基本信息接口*/
     public static void GetClassRoomMSGRequest(final String ID, final Callback callback) {
         new Thread(new Runnable() {
             @Override
@@ -267,7 +273,7 @@ public class RequestZHJS {
         }).start();
     }
 
-    //获取考勤表信息
+    /*获取考勤数据汇总信息*/
     public static void getAttendance(final Callback callback) {
         new Thread(new Runnable() {
             @Override
@@ -286,6 +292,8 @@ public class RequestZHJS {
             }
         }).start();
     }
+
+    /*获取本周课程表信息*/
    public static void getSyllabus(final long week,final Handler mHandler) {
         new Thread(new Runnable() {
             @Override
@@ -293,6 +301,7 @@ public class RequestZHJS {
                 try {
                     OkHttpClient mOkHttpClient = new OkHttpClient();
                     String session = getSession();
+                    Log.e("xueqi", session);
                     RequestBody body = new FormBody.Builder()
                             .add("term_no", session)
                             .add("week",String.valueOf(week))
@@ -382,6 +391,7 @@ public class RequestZHJS {
     }
 
 
+    /*申述请求接口*/
     public static void AppealRequset(final String Msg, final CheckAttData data,
                                       final Handler mHander,final int success,final int fall) {
         new Thread(new Runnable() {
