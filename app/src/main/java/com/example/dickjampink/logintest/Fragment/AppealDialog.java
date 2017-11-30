@@ -25,7 +25,7 @@ public class AppealDialog extends DialogFragment {
     private TextView ClassName,ClassDate;
     private CheckAttData mCheckAttData;
 
-    public static AppealDialog newInstance(CheckAttData CheckAttData) {
+    public static AppealDialog  newInstance(CheckAttData CheckAttData) {
 
         AppealDialog dialog = new AppealDialog();
         Bundle msg = new Bundle();

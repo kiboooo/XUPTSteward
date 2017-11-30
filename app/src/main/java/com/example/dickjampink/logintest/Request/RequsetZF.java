@@ -181,49 +181,48 @@ public class RequsetZF {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responsebody = response.body().string();
-                    Log.e("responsebody   ", responsebody);
-                    Document document = Jsoup.parse(responsebody);
-                    String viewtate = document.select("input[name=__VIEWSTATE]").val();
-                    Log.e("noCode viewstate   ", viewtate.substring(viewtate.length()-5));
-                    CheckGrad_ViewState = URLEncoder.encode(viewtate, "GBK");
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-//                            Log.e("CheckGrad_ViewState  ", CheckGrad_ViewState.substring(CheckGrad_ViewState.length()-5));
-//                            Log.e("GradeUrl  ", GradeUrl);
-//                            Log.e("Body :  ", ddlXN + "   " + ddlXQ + "   " + ButtonSelect);
-//                            Log.e("Body  ddlXN   :  ", ddlXN.split("=")[0] + "   " + ddlXN.split("=")[1] );
-//                            Log.e("Body  ddlXQ   :  ", ddlXQ.split("=")[0] + "   " + ddlXQ.split("=")[1] );
-//                            Log.e("Body  ButtonSelec:  ", ButtonSelect.split("=")[0]+ "   " + ButtonSelect.split("=")[1] );
 
-                            String requestbody_String = "__EVENTTARGET=&__EVENTARGUMENT=&__VIEWSTATE="
-                                    + CheckGrad_ViewState
-                                    + "&hidLanguage=&ddl_kcxz="
-                                    + ddlXN + ddlXQ + ButtonSelect;
+                    Log.e("responsebody   ", response.code()+"  "+responsebody);
+//                    if(responsebody.contains("教学质量评价")){
+//
+//                        call.enqueue(callback);
+//                    }else {
+                        Document document = Jsoup.parse(responsebody);
+                        String viewtate = document.select("input[name=__VIEWSTATE]").val();
+                        CheckGrad_ViewState = URLEncoder.encode(viewtate, "GBK");
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
 
-                            Log.e("ViewState  ", requestbody_String.substring(requestbody_String.length()-100));
-                            OkHttpClient client = new OkHttpClient();
-                            final Request request = new Request.Builder()
-                                    .url(GradeUrl)
-                                    .header("Host", "222.24.62.120")
-                                    .addHeader("Connection", "keep-alive")
-                                    .addHeader("Cache-Control", "max-age=0")
-                                    .addHeader("Origin", "http://222.24.62.120")
-                                    .addHeader("Upgrade-Insecure-Requests", "1")
-                                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                                    .addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
-                                    .addHeader("Referer", GradeUrl)
-                                    .addHeader("Accept-Encoding", "gzip, deflate")
-                                    .addHeader("Accept-Language", "zh-CN,zh;q=0.8")
-                                    .addHeader("Cookie", auth_Cookie)
-                                    .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, requestbody_String))
-                                    .build();
+                                String requestbody_String = "__EVENTTARGET=&__EVENTARGUMENT=&__VIEWSTATE="
+                                        + CheckGrad_ViewState
+                                        + "&hidLanguage=&ddl_kcxz="
+                                        + ddlXN + ddlXQ + ButtonSelect;
 
-                            Call call2 = client.newCall(request);
-                            call2.enqueue(callback);
-                        }
-                    }).start();
-                }
+                                Log.e("ViewState  ", requestbody_String.substring(requestbody_String.length() - 100));
+                                OkHttpClient client = new OkHttpClient();
+                                final Request request = new Request.Builder()
+                                        .url(GradeUrl)
+                                        .header("Host", "222.24.62.120")
+                                        .addHeader("Connection", "keep-alive")
+                                        .addHeader("Cache-Control", "max-age=0")
+                                        .addHeader("Origin", "http://222.24.62.120")
+                                        .addHeader("Upgrade-Insecure-Requests", "1")
+                                        .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                                        .addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+                                        .addHeader("Referer", GradeUrl)
+                                        .addHeader("Accept-Encoding", "gzip, deflate")
+                                        .addHeader("Accept-Language", "zh-CN,zh;q=0.8")
+                                        .addHeader("Cookie", auth_Cookie)
+                                        .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, requestbody_String))
+                                        .build();
+
+                                Call call2 = client.newCall(request);
+                                call2.enqueue(callback);
+                            }
+                        }).start();
+                    }
+//                }
             }
         });
     }

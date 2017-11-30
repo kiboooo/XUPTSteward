@@ -773,6 +773,7 @@ public class Syllabus extends AppCompatActivity
                             @Override
                             public void onResponse(Call call, Response response) throws IOException {
                                 final String Body = response.body().string();
+                                Log.e("CheckGradeRequset", Body);
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -909,14 +910,28 @@ public class Syllabus extends AppCompatActivity
                                             throws IOException {
                                         if (response.isSuccessful()) {
                                             final String Gradebody = response.body().string();
+                                            Log.e("Gradebody", Gradebody);
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    setFloatingActionButton(initFMD(Gradebody));
-                                                    setGradeDisplay(initGrade(Gradebody));
+                                                    if (Gradebody.contains("ERROR")){
+                                                        progressDialog.dismiss();
+                                                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(Syllabus.this);
+                                                        alertDialog.setTitle("温馨提示：");
+                                                        alertDialog.setMessage("    由于您还没有进行本学期的课堂教学质量评价,在本系统的" +
+                                                                "“教学质量评价”栏中完成评价工作后，才能进入系统。");
+                                                        alertDialog.setPositiveButton("知道了", null);
+//                                                        Toast.makeText(getBaseContext(),
+//                                                                "你还没有进行本学期的课堂教学质量评价,在本系统的" +
+//                                                                        "“教学质量评价”栏中完成评价工作后，才能进入系统。",
+//                                                                Toast.LENGTH_LONG).show();
+                                                        alertDialog.show();
+                                                    }else {
+                                                        setFloatingActionButton(initFMD(Gradebody));
+                                                        setGradeDisplay(initGrade(Gradebody));
+                                                    }
                                                 }
                                             });
-
                                         }
                                     }
                                 });
