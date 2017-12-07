@@ -328,6 +328,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         option.setIsNeedAddress(true);//获取当前位置的详细地址信息
         mLocationClient.setLocOption(option);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
