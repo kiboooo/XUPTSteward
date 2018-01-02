@@ -19,6 +19,7 @@ public class MylocationListener implements BDLocationListener {
 
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
+        Log.e("onReceiveLocation",bdLocation.getDistrict() + "  "+bdLocation.getCity() );
         LocationName = bdLocation.getDistrict().substring(0,bdLocation.getCity().length()-1);
         LocationCityName = bdLocation.getCity().substring(0,bdLocation.getCity().length()-1);
         double locationLatitude = bdLocation.getLatitude();

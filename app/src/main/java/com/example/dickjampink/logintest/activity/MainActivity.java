@@ -333,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         mLocationClient.stop();
+        mHandler.removeCallbacks(null);
     }
 
 }

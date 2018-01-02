@@ -58,6 +58,7 @@ public class RequestZHJS {
             @Override
             public void run() {
                 try {
+
                     String mUrl = "http://jwkq.xupt.edu.cn:8080/Common/GetValidateCode?time="+System.currentTimeMillis();
 
                     mOkHttpClient = new OkHttpClient.Builder()
@@ -69,6 +70,7 @@ public class RequestZHJS {
                     final Request request = new Request.Builder()
                             .url(mUrl)
                             .build();
+
                     //new call
                     Call call = mOkHttpClient.newCall(request);
                     //请求加入调度
@@ -183,6 +185,7 @@ public class RequestZHJS {
                                             message.obj = user_pass;
                                             message.what = LOGIN_SUCCESS;
                                             mHandler.sendMessage(message);
+
                                         }
                                         else {
                                             mHandler.sendEmptyMessage(LOGIN_FALL);
@@ -200,7 +203,6 @@ public class RequestZHJS {
                                 Log.e(TAG, data);
                                 Message msg = new Message();
                                 mHandler.sendMessage(msg);
-
                             }
                             Headers headers = response.headers();
                             Log.d(TAG, "header " + headers);
@@ -364,10 +366,17 @@ public class RequestZHJS {
     //利用日期类 求出 查询的时间点为哪一个学期；
     private static String getSession() {
         Calendar c = Calendar.getInstance();
-        if (c.get(Calendar.MONTH)+1 > 8) {
+        Log.e("dangqian月份", "" + (c.get(Calendar.MONTH) + 1));
+        if (c.get(Calendar.MONTH) + 1 > 8 ) {
+
             return c.get(Calendar.YEAR) + "-" + (c.get(Calendar.YEAR) + 1) + "-1";
+
+        }else if (c.get(Calendar.MONTH) + 1 < 2) {
+
+            return (c.get(Calendar.YEAR) - 1) + "-" + (c.get(Calendar.YEAR)) + "-1";
         }
-        return (c.get(Calendar.YEAR) - 1) + "-" + (c.get(Calendar.YEAR)) + "-2";
+        else
+            return (c.get(Calendar.YEAR) - 1) + "-" + (c.get(Calendar.YEAR)) + "-2";
     }
 
     //储存课表信息

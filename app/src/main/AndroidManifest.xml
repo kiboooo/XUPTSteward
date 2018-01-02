@@ -34,7 +34,8 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="Xb6RP4cvcZhNksrPp200zVLMfEu0g3H4" />
 
-        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
+        <service android:name="com.baidu.location.f"
+            android:enabled="true" android:process=":remote">
         </service>
 
         <activity android:name=".activity.SplashActivity"
